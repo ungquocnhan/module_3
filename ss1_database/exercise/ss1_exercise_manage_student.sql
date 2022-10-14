@@ -23,9 +23,9 @@ select * from class;
 
 insert into student (id,name,age,country)
 value (2,'Nhân',32,'Việt Nam'),
-	  (3,'Nhân',31,'Việt Nam'),
-      (4,'Nhân',30,'Da Nang'),
-      (5,'Nhân',29,'Da Nang');
+	  (3,'nhân',31,'việt Nam'),
+      (4,'Nhân',30,'Da nang'),
+      (5,'Nhân',29,'Da nang');
 
 select * from student;
 

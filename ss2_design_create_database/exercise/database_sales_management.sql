@@ -16,15 +16,21 @@ CREATE TABLE `order` (
         REFERENCES customer (id_cus)
 );
 
-CREATE TABLE order_detail (
-    id_order INT,
-    id_product INT,
-    qty_od VARCHAR(30),
-    PRIMARY KEY (id_order , id_product)
-);
-
 CREATE TABLE product (
     id_product INT AUTO_INCREMENT PRIMARY KEY,
     name_product VARCHAR(50) NOT NULL,
     price_product DOUBLE NOT NULL
 );
+
+CREATE TABLE order_detail (
+    id_order INT,
+    id_product INT,
+    qty_od VARCHAR(30),
+    PRIMARY KEY (id_order , id_product),
+    FOREIGN KEY (id_order)
+        REFERENCES `order` (id_order),
+	FOREIGN KEY (id_product)
+        REFERENCES product (id_product)
+);
+
+

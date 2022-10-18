@@ -16,7 +16,7 @@ VALUE ('Sale-Marketing'),
       
 INSERT INTO case_study_furama.nhan_vien ( ho_ten, ngay_sinh, so_cmnd, luong, so_dien_thoai, email, dia_chi, ma_vi_tri, ma_trinh_do, ma_bo_phan) 
 VALUE
-('NguyễN Văn An', 1970-11-07, '456231786', 10000000, '0901234121', 'annguyen@gmail.Com', '295 Nguyễn Tất Thành, Đà Nẵng', 1, 3, 1),
+('Nguyễn Văn An', 1970-11-07, '456231786', 10000000, '0901234121', 'annguyen@gmail.Com', '295 Nguyễn Tất Thành, Đà Nẵng', 1, 3, 1),
 ('Lê Văn Bình', 1997-04-09, '654231234', 7000000, '0934212314', 'binhlv@gmail.com', '22 Yên Bái, Đà Nẵng', 1, 2, 2),
 ('Hồ Thị Yến', 1995-12-12, '999231723', 14000000, '0412352315', 'thiyen@gmail.cOm', 'K234/11 Điện Biên Phủ, Gia Lai', 1, 3, 2),
 ('Võ Công Toản', 1980-04-04, '123231365', 17000000, '0374443232', 'toan0404@gMail.com', '77 Hoàng Diệu, Quảng Trị', 1, 4, 4),
@@ -32,7 +32,7 @@ VALUE ('Diamond'),
 	  ('Platinium'),
       ('Gold'),
       ('Silver'),
-      ('member');
+      ('Member');
 
 INSERT INTO case_study_furama.khach_hang (ho_ten, ngay_sinh, gioi_tinh, so_cmnd, so_dien_thoai, email, dia_chi, ma_loai_khach) 
 VALUE

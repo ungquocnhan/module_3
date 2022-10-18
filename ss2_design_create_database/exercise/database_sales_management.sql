@@ -11,7 +11,7 @@ CREATE TABLE `order` (
     id_order INT AUTO_INCREMENT PRIMARY KEY,
     id_cus INT,
     date_order DATE NOT NULL,
-    total_price DOUBLE NOT NULL,
+    total_price DOUBLE,
     FOREIGN KEY (id_cus)
         REFERENCES customer (id_cus)
 );
@@ -25,7 +25,7 @@ CREATE TABLE product (
 CREATE TABLE order_detail (
     id_order INT,
     id_product INT,
-    qty_od VARCHAR(30),
+    qty_order int,
     PRIMARY KEY (id_order , id_product),
     FOREIGN KEY (id_order)
         REFERENCES `order` (id_order),

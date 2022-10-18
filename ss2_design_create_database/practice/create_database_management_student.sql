@@ -4,7 +4,7 @@ USE quan_ly_sinh_vien;
 CREATE TABLE class (
     class_id INT AUTO_INCREMENT PRIMARY KEY,
     class_name VARCHAR(60) NOT NULL,
-    start_date DATETIME,
+    start_date DATE,
     `status` BIT
 );
 
@@ -13,6 +13,7 @@ CREATE TABLE student (
     student_name VARCHAR(30) NOT NULL,
     address VARCHAR(50),
     phone VARCHAR(20),
+    `status` BIT,
     class_id INT NOT NULL,
     FOREIGN KEY (class_id)
         REFERENCES class (class_id)

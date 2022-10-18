@@ -1,4 +1,4 @@
-use quan_ly_sinh_vien;
+USE quan_ly_sinh_vien;
 
 SELECT 
     *

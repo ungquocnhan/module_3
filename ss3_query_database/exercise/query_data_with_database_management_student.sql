@@ -38,3 +38,4 @@ FROM
         JOIN
     subject ON mark.sub_id = subject.sub_id
 ORDER BY mark DESC , student_name;
+

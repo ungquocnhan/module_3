@@ -89,7 +89,7 @@ WHERE
                 JOIN
             hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
         WHERE
-            (MONTH(hd.ngay_lam_hop_dong) BETWEEN 1 AND 3)
+            (QUARTER(hd.ngay_lam_hop_dong) = 1)
                 AND YEAR(hd.ngay_lam_hop_dong) = '2021')
 GROUP BY ma_dich_vu;
 
@@ -152,7 +152,7 @@ FROM
     
 -- 9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
 SELECT 
-    MONTH(ngay_lam_hop_dong) AS `month`, COUNT(ma_hop_dong)
+    MONTH(ngay_lam_hop_dong) AS `month`, COUNT(ma_khach_hang)
 FROM
     hop_dong
 WHERE
@@ -204,7 +204,7 @@ SELECT
     kh.ho_ten,
     kh.so_dien_thoai,
     dv.ten_dich_vu,
-    SUM(hdct.so_luong) AS so_luong_dich_vu_di_kem,
+    IFNULL(SUM(hdct.so_luong), 0) AS so_luong_dich_vu_di_kem,
     hd.tien_dat_coc
 FROM
     hop_dong hd
@@ -224,8 +224,7 @@ WHERE
                 JOIN
             hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
         WHERE
-            (MONTH(hd.ngay_lam_hop_dong) BETWEEN 9 AND 12)
-                AND YEAR(hd.ngay_lam_hop_dong) = '2020')
+            hd.ngay_lam_hop_dong BETWEEN '2020-10-01' AND '2020-12-31')
         AND dv.ma_dich_vu NOT IN (SELECT 
             dv.ma_dich_vu
         FROM
@@ -233,8 +232,7 @@ WHERE
                 JOIN
             hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
         WHERE
-            (MONTH(hd.ngay_lam_hop_dong) BETWEEN 1 AND 6)
-                AND YEAR(hd.ngay_lam_hop_dong) = '2021')
+            hd.ngay_lam_hop_dong BETWEEN '2021-01-01' AND '2021-06-30')
 GROUP BY hd.ma_hop_dong;
   
 -- 13.	Hiển thị thông tin các Dịch vụ đi kèm được sử dụng nhiều nhất bởi các Khách hàng đã đặt phòng. 
@@ -292,10 +290,23 @@ FROM
     trinh_do td ON td.ma_trinh_do = nv.ma_trinh_do
         JOIN
     hop_dong hd ON hd.ma_nhan_vien = nv.ma_nhan_vien
+WHERE hd.ngay_lam_hop_dong BETWEEN '2020-01-01' AND '2021-12-31'
 GROUP BY hd.ma_nhan_vien
-HAVING COUNT(hd.ma_nhan_vien) >= 3;  
+HAVING COUNT(hd.ma_nhan_vien) <= 3;  
   
-  
+-- 16.	Xóa những Nhân viên chưa từng lập được hợp đồng nào từ năm 2019 đến năm 2021.
+DELETE FROM nhan_vien 
+WHERE
+    ma_nhan_vien NOT IN (SELECT 
+        *
+    FROM
+        (SELECT 
+            hd.ma_nhan_vien
+        FROM
+            nhan_vien nv
+        LEFT JOIN hop_dong hd ON hd.ma_nhan_vien = nv.ma_nhan_vien
+        GROUP BY hd.ma_nhan_vien
+        HAVING COUNT(hd.ma_nhan_vien) >= 1) AS xoa_nhan_vien);
   
   
   

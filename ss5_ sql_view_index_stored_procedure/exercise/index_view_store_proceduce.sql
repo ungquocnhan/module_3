@@ -19,7 +19,7 @@ VALUE
 ('CG4','LAPTOP_5',3000,8,'DELL',1),
 ('CG5','LAPTOP_6',6000,1,'LENOVO',1);
 
-CREATE UNIQUE INDEX 
+CREATE INDEX 
 	index_product_code
 ON 
 	products(product_code);
@@ -101,23 +101,25 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE products_store()
+CREATE PROCEDURE products_store_update(IN p_id INT)
 BEGIN
 UPDATE
 	products
 SET 
 	product_name = 'LAPTOP_0'
 WHERE 
-	id = 3;
+	id = p_id;
 END //
 DELIMITER ;
+CALL products_store_update(7);
 
 DELIMITER //
-CREATE PROCEDURE products_store()
+CREATE PROCEDURE products_store_delete(IN p_id INT)
 BEGIN
 DELETE FROM
 	products 
     WHERE 
-	id = 5;
+	id = p_id;
 END //
 DELIMITER ;
+CALL products_store_delete(7);

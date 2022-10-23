@@ -416,9 +416,115 @@ UNION ALL SELECT
 FROM
     khach_hang kh;
 
+-- 21.	Tạo khung nhìn có tên là v_nhan_vien để lấy được thông tin của tất cả các nhân viên có địa chỉ là “Hải Châu” -> "Yên Bái"
+-- và đã từng lập hợp đồng cho một hoặc nhiều khách hàng bất kì với ngày lập hợp đồng là “12/12/2019”.-> "25/04/2021"
+CREATE VIEW v_nhan_vien AS
+    SELECT 
+        *
+    FROM
+        nhan_vien
+    WHERE
+        dia_chi LIKE '%Yên Bái%'
+            AND ma_nhan_vien IN (SELECT 
+                nv.ma_nhan_vien
+            FROM
+                nhan_vien nv
+                    LEFT JOIN
+                hop_dong hd ON nv.ma_nhan_vien = hd.ma_nhan_vien
+            WHERE
+                hd.ngay_lam_hop_dong = '2021-04-25'
+            GROUP BY hd.ma_nhan_vien
+            HAVING COUNT(hd.ma_nhan_vien) >= 1);
 
+-- 22.	Thông qua khung nhìn v_nhan_vien thực hiện cập nhật địa chỉ thành “Liên Chiểu” đối với tất cả các nhân viên được nhìn thấy bởi khung nhìn này.
+UPDATE v_nhan_vien 
+SET 
+    dia_chi = 'Liên Chiểu';
+       
+-- 23.	Tạo Stored Procedure sp_xoa_khach_hang dùng để xóa thông tin của một khách hàng nào đó với ma_khach_hang được truyền vào như là 1 tham số của sp_xoa_khach_hang.
+DELIMITER //
+CREATE PROCEDURE sp_xoa_khach_hang(IN p_ma_khach_hang INT)
+BEGIN
+DELETE FROM
+	khach_hang 
+    WHERE 
+	ma_khach_hang = p_ma_khach_hang;
+END //
+DELIMITER ;
+CALL sp_xoa_khach_hang(2);
 
+-- 24.	Tạo Stored Procedure sp_them_moi_hop_dong dùng để thêm mới vào bảng hop_dong với yêu cầu sp_them_moi_hop_dong phải thực hiện kiểm tra tính hợp lệ của dữ liệu bổ sung,
+-- với nguyên tắc không được trùng khóa chính và đảm bảo toàn vẹn tham chiếu đến các bảng liên quan.
+DELIMITER //
+CREATE PROCEDURE sp_them_moi_hop_dong(IN p_ngay_lam_hop_dong DATE, p_ngay_ket_thuc DATE, p_tien_dat_coc DOUBLE, p_ma_nhan_vien INT, p_ma_khach_hang INT, p_ma_dich_vu INT)
+BEGIN
+INSERT INTO 
+	hop_dong(ngay_lam_hop_dong, ngay_ket_thuc, tien_dat_coc, ma_nhan_vien, ma_khach_hang, ma_dich_vu)
+SELECT
+	p_ngay_lam_hop_dong, p_ngay_ket_thuc, p_tien_dat_coc, p_ma_nhan_vien, p_ma_khach_hang, p_ma_dich_vu
+FROM 
+	hop_dong
+WHERE EXISTS (
+SELECT 
+	hd.ma_nhan_vien, hd.ma_khach_hang, hd.ma_dich_vu 
+FROM 
+	hop_dong hd 
+    RIGHT JOIN 
+    nhan_vien nv 
+    ON nv.ma_nhan_vien = hd.ma_nhan_vien
+	RIGHT JOIN khach_hang kh 
+    ON kh.ma_khach_hang = hd.ma_khach_hang
+	RIGHT JOIN dich_vu dv 
+    ON dv.ma_dich_vu = hd.ma_dich_vu 
+    WHERE hd.ma_nhan_vien IN (1,2,3,4,5,6,7,8,9,10) 
+    AND hd.ma_khach_hang IN (1,2,3,4,5,6,7,8,9,10) 
+    AND hd.ma_dich_vu IN (1,2,3,4,5,6))
+LIMIT 1;
+END //
+DELIMITER ;
+CALL sp_them_moi_hop_dong('2022-10-22','2022-10-24',2000000, 5,6,4);
 
+delete from hop_dong WHERE ma_hop_dong>10;
 
+-- 25.	Tạo Trigger có tên tr_xoa_hop_dong khi xóa bản ghi trong bảng hop_dong thì hiển thị tổng số lượng bản ghi còn lại có trong bảng hop_dong ra giao diện console của database.
+-- Lưu ý: Đối với MySQL thì sử dụng SIGNAL hoặc ghi log thay cho việc ghi ở console.
+DELIMITER //
+CREATE TRIGGER tr_xoa_hop_dong 
+AFTER DELETE ON hop_dong
+FOR EACH ROW
+BEGIN
+insert into `history`(tong_record_con_lai, delete_day) 
+SELECT count(hop_dong.ma_hop_dong), now()
+FROM hop_dong;
+END //
+DELIMITER ;
 
+select * from history;
+select * from hop_dong;
+DELETE FROM hop_dong WHERE ma_hop_dong = 3;
+drop TRIGGER tr_xoa_hop_dong;
 
+-- tạo bảng để ghi log
+create table `history`(
+id int auto_increment primary key,
+tong_record_con_lai int,
+update_day date
+);
+
+-- 26.	Tạo Trigger có tên tr_cap_nhat_hop_dong khi cập nhật ngày kết thúc hợp đồng, cần kiểm tra xem thời gian cập nhật có phù hợp hay không,
+--  với quy tắc sau: Ngày kết thúc hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất là 2 ngày. Nếu dữ liệu hợp lệ thì cho phép cập nhật,
+--  nếu dữ liệu không hợp lệ thì in ra thông báo “Ngày kết thúc hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất là 2 ngày” trên console của database.
+DELIMITER //
+CREATE TRIGGER tr_cap_nhat_hop_dong 
+BEFORE UPDATE ON hop_dong
+FOR EACH ROW
+BEGIN
+declare ngay_cap_nhat date
+if (datediff(ngay_cap_nhat, ngay_lam_hop_dong) > 2),
+update hop_dong
+set ngay_ket_thuc = ngay_cap_nhat,
+insert into `history`(tong_hop_dong, update_day) 
+SELECT count(hop_dong.ma_hop_dong), now()
+FROM hop_dong;
+END //
+DELIMITER ;

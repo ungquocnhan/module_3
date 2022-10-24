@@ -348,7 +348,6 @@ WHERE
             
 SET SQL_SAFE_UPDATES = 0; 
 
-
 -- 19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi.
 UPDATE dich_vu_di_kem 
 SET 
@@ -468,7 +467,7 @@ LIMIT 1;
 END //
 DELIMITER ;
 
-CALL sp_them_moi_hop_dong('2022-10-22','2022-10-24',2000000, 5,6,4);
+CALL sp_them_moi_hop_dong('2022-10-22', '2022-10-24', 2000000, 5, 6, 4);
 
 DELETE FROM hop_dong 
 WHERE
@@ -631,6 +630,7 @@ DROP PROCEDURE sp_xoa_dich_vu_va_hd_room;
 
 CALL sp_xoa_dich_vu_va_hd_room();
 
+-----------------------------------------------------------------------------------------------------------------
 DELIMITER //
 CREATE PROCEDURE sp_xoa_dich_vu_va_hd_room_1()
 BEGIN

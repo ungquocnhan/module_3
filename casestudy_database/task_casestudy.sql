@@ -370,8 +370,8 @@ WHERE
 
 -- 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống, thông tin hiển thị bao gồm id 
 -- (ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
-SELECT 
-    nv.ma_nhan_vien,
+SELECT
+    nv.ma_nhan_vien as id,
     nv.ho_ten,
     nv.email,
     nv.so_dien_thoai,
@@ -380,7 +380,7 @@ SELECT
 FROM
     nhan_vien nv 
 UNION ALL SELECT 
-    kh.ma_khach_hang,
+    kh.ma_khach_hang as id,
     kh.ho_ten,
     kh.email,
     kh.so_dien_thoai,
@@ -415,7 +415,9 @@ CREATE VIEW v1_nhan_vien AS
         *
     FROM
         nhan_vien;
+        
 SET SQL_SAFE_UPDATES = 0;
+
 UPDATE v1_nhan_vien 
 SET 
     dia_chi = 'Liên Chiểu'
@@ -516,7 +518,7 @@ CREATE TRIGGER tr_cap_nhat_hop_dong
 BEFORE UPDATE ON hop_dong
 FOR EACH ROW
 BEGIN
-IF datediff(new.ngay_ket_thuc, old.ngay_lam_hop_dong) < 2 then
+IF datediff(new.ngay_ket_thuc, old.ngay_lam_hop_dong) < 2 THEN
 SIGNAL SQLSTATE '45000'
 SET MESSAGE_TEXT = 'Ngày kết thúc hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất là 2 ngày';
 END IF ;
@@ -527,15 +529,12 @@ DROP TRIGGER tr_cap_nhat_hop_dong;
 
 UPDATE hop_dong 
 SET 
-    ngay_ket_thuc = '2020-07-21'
+    ngay_ket_thuc = '2020-07-15'
 WHERE
     ma_hop_dong = 2;
 
 -- 27.	Tạo Function thực hiện yêu cầu sau:
 -- a.	Tạo Function func_dem_dich_vu: Đếm các dịch vụ đã được sử dụng với tổng tiền là > 2.000.000 VNĐ.
--- b.	Tạo Function func_tinh_thoi_gian_hop_dong: Tính khoảng thời gian dài nhất tính từ lúc bắt đầu làm hợp đồng đến lúc kết thúc hợp đồng mà khách hàng đã thực hiện thuê dịch vụ 
--- (lưu ý chỉ xét các khoảng thời gian dựa vào từng lần làm hợp đồng thuê dịch vụ, không xét trên toàn bộ các lần làm hợp đồng). 
--- Mã của khách hàng được truyền vào như là 1 tham số của function này.
 DELIMITER //
 CREATE FUNCTION func_dem_dich_vu()
 RETURNS INT
@@ -561,6 +560,9 @@ SELECT func_dem_dich_vu();
 
 DROP FUNCTION func_dem_dich_vu;
 
+-- b.	Tạo Function func_tinh_thoi_gian_hop_dong: Tính khoảng thời gian dài nhất tính từ lúc bắt đầu làm hợp đồng đến lúc kết thúc hợp đồng mà khách hàng đã thực hiện thuê dịch vụ 
+-- (lưu ý chỉ xét các khoảng thời gian dựa vào từng lần làm hợp đồng thuê dịch vụ, không xét trên toàn bộ các lần làm hợp đồng). 
+-- Mã của khách hàng được truyền vào như là 1 tham số của function này.
 DELIMITER //
 CREATE FUNCTION func_tinh_thoi_gian_hop_dong(p_ma_khach_hang INT)
 RETURNS INT
@@ -584,3 +586,90 @@ DELIMITER ;
 SELECT func_tinh_thoi_gian_hop_dong(4);
 
 DROP FUNCTION func_tinh_thoi_gian_hop_dong;
+
+-- 28.	Tạo Stored Procedure sp_xoa_dich_vu_va_hd_room để tìm các dịch vụ được thuê bởi khách hàng với loại dịch vụ là “Room” từ đầu năm 2015 đến hết năm 2019 
+-- để xóa thông tin của các dịch vụ đó (tức là xóa các bảng ghi trong bảng dich_vu) và xóa những hop_dong sử dụng dịch vụ liên quan 
+-- (tức là phải xóa những bản gi trong bảng hop_dong) và những bản liên quan khác.
+DELIMITER //
+CREATE PROCEDURE sp_xoa_dich_vu_va_hd_room()
+BEGIN
+SELECT dv.ma_dich_vu, dv.ten_dich_vu FROM dich_vu dv LEFT JOIN hop_dong hd on hd.ma_dich_vu = dv.ma_dich_vu
+LEFT JOIN loai_dich_vu ldv on ldv.ma_loai_dich_vu = dv.ma_loai_dich_vu
+WHERE ldv.ten_loai_dich_vu = 'Room' AND year(hd.ngay_lam_hop_dong) BETWEEN '2015' AND '2019';
+DELETE FROM dich_vu 
+WHERE
+    ten_dich_vu IN (SELECT 
+        dv.ten_dich_vu
+    FROM
+        dich_vu dv
+            LEFT JOIN
+        hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
+            LEFT JOIN
+        loai_dich_vu ldv ON ldv.ma_loai_dich_vu = dv.ma_loai_dich_vu
+    
+    WHERE
+        ldv.ten_loai_dich_vu = 'Room'
+        AND year(hd.ngay_lam_hop_dong) BETWEEN '2015' AND '2019');
+DELETE FROM hop_dong 
+WHERE
+    ma_dich_vu IN (SELECT 
+        dv.ma_dich_vu
+    FROM
+        dich_vu dv
+            LEFT JOIN
+        hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
+            LEFT JOIN
+        loai_dich_vu ldv ON ldv.ma_loai_dich_vu = dv.ma_loai_dich_vu
+    
+    WHERE
+        ldv.ten_loai_dich_vu = 'Room'
+        AND year(hd.ngay_lam_hop_dong) BETWEEN '2015' AND '2019');
+END //
+DELIMITER ;
+
+DROP PROCEDURE sp_xoa_dich_vu_va_hd_room;
+
+CALL sp_xoa_dich_vu_va_hd_room();
+
+DELIMITER //
+CREATE PROCEDURE sp_xoa_dich_vu_va_hd_room_1()
+BEGIN
+SELECT dv.ma_dich_vu, dv.ten_dich_vu FROM dich_vu dv LEFT JOIN hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
+LEFT JOIN loai_dich_vu ldv ON ldv.ma_loai_dich_vu = dv.ma_loai_dich_vu
+WHERE ldv.ten_loai_dich_vu = 'Room' AND hd.ngay_lam_hop_dong BETWEEN '2020-01-01' AND '2021-12-31';
+
+DELETE FROM dich_vu 
+WHERE
+    ma_dich_vu IN (SELECT * FROM (SELECT
+        dv.ma_dich_vu
+    FROM
+        dich_vu dv
+            LEFT JOIN
+        hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
+            LEFT JOIN
+        loai_dich_vu ldv ON ldv.ma_loai_dich_vu = dv.ma_loai_dich_vu
+    WHERE
+        ldv.ten_loai_dich_vu = 'Room'
+        AND hd.ngay_lam_hop_dong BETWEEN '2020-01-01' AND '2021-12-31') AS delete_dich_vu);
+        
+DELETE FROM hop_dong 
+WHERE
+    ma_dich_vu IN (SELECT * FROM (SELECT 
+        hd.ma_dich_vu
+    FROM
+        dich_vu dv
+            LEFT JOIN
+        hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
+            LEFT JOIN
+        loai_dich_vu ldv ON ldv.ma_loai_dich_vu = dv.ma_loai_dich_vu
+    
+    WHERE
+        ldv.ten_loai_dich_vu = 'Room'
+        AND hd.ngay_lam_hop_dong BETWEEN '2020-01-01' AND '2021-12-31') AS delete_hop_dong);
+        
+END //
+DELIMITER ;
+
+CALL sp_xoa_dich_vu_va_hd_room_1();
+
+DROP PROCEDURE sp_xoa_dich_vu_va_hd_room_1;

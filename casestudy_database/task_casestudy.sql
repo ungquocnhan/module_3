@@ -43,7 +43,7 @@ ORDER BY so_lan_dat_phong;
 -- 5.	Hiển thị ma_khach_hang, ho_ten, ten_loai_khach, ma_hop_dong, ten_dich_vu, ngay_lam_hop_dong, ngay_ket_thuc, tong_tien 
 -- (Với tổng tiền được tính theo công thức như sau: Chi Phí Thuê + Số Lượng * Giá, với Số Lượng và Giá là từ bảng dich_vu_di_kem, hop_dong_chi_tiet)
 --  cho tất cả các khách hàng đã từng đặt phòng. 
---  (những khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra).
+--  (những khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra).  
 SELECT 
     kh.ma_khach_hang,
     kh.ho_ten,
@@ -52,7 +52,7 @@ SELECT
     dv.ten_dich_vu,
     hd.ngay_lam_hop_dong,
     hd.ngay_ket_thuc,
-    (IFNULL(dv.chi_phi_thue, 0) + IFNULL(hdct.so_luong, 0) * IFNULL(dvdk.gia, 0)) AS tong_tien
+    dv.chi_phi_thue + IFNULL(SUM(hdct.so_luong * dvdk.gia), 0) AS tong_tien
 FROM
     khach_hang kh
         JOIN
@@ -65,7 +65,8 @@ FROM
     hop_dong_chi_tiet hdct ON hd.ma_hop_dong = hdct.ma_hop_dong
         LEFT JOIN
     dich_vu_di_kem dvdk ON hdct.ma_dich_vu_di_kem = dvdk.ma_dich_vu_di_kem
-ORDER BY kh.ma_khach_hang;
+GROUP BY hd.ma_hop_dong
+ORDER BY kh.ma_khach_hang;  
    
 -- 6.	Hiển thị ma_dich_vu, ten_dich_vu, dien_tich, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ
 --  chưa từng được khách hàng thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3). 
@@ -307,34 +308,6 @@ WHERE
         LEFT JOIN hop_dong hd ON hd.ma_nhan_vien = nv.ma_nhan_vien
         GROUP BY hd.ma_nhan_vien
         HAVING COUNT(hd.ma_nhan_vien) >= 1) AS xoa_nhan_vien);
-  
--- 5.	Hiển thị ma_khach_hang, ho_ten, ten_loai_khach, ma_hop_dong, ten_dich_vu, ngay_lam_hop_dong, ngay_ket_thuc, tong_tien 
--- (Với tổng tiền được tính theo công thức như sau: Chi Phí Thuê + Số Lượng * Giá, với Số Lượng và Giá là từ bảng dich_vu_di_kem, hop_dong_chi_tiet)
---  cho tất cả các khách hàng đã từng đặt phòng. 
---  (những khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra).  
-SELECT 
-    kh.ma_khach_hang,
-    kh.ho_ten,
-    lk.ten_loai_khach,
-    hd.ma_hop_dong,
-    dv.ten_dich_vu,
-    hd.ngay_lam_hop_dong,
-    hd.ngay_ket_thuc,
-    dv.chi_phi_thue + IFNULL(SUM(hdct.so_luong * dvdk.gia), 0) AS tong_tien
-FROM
-    khach_hang kh
-        JOIN
-    loai_khach lk ON lk.ma_loai_khach = kh.ma_loai_khach
-        LEFT JOIN
-    hop_dong hd ON kh.ma_khach_hang = hd.ma_khach_hang
-        LEFT JOIN
-    dich_vu dv ON dv.ma_dich_vu = hd.ma_dich_vu
-        LEFT JOIN
-    hop_dong_chi_tiet hdct ON hd.ma_hop_dong = hdct.ma_hop_dong
-        LEFT JOIN
-    dich_vu_di_kem dvdk ON hdct.ma_dich_vu_di_kem = dvdk.ma_dich_vu_di_kem
-GROUP BY hd.ma_hop_dong
-ORDER BY kh.ma_khach_hang;  
 
 -- 17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond, 
 -- chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
@@ -437,9 +410,18 @@ CREATE VIEW v_nhan_vien AS
             HAVING COUNT(hd.ma_nhan_vien) >= 1);
 
 -- 22.	Thông qua khung nhìn v_nhan_vien thực hiện cập nhật địa chỉ thành “Liên Chiểu” đối với tất cả các nhân viên được nhìn thấy bởi khung nhìn này.
-UPDATE v_nhan_vien 
+CREATE VIEW v1_nhan_vien AS
+    SELECT 
+        *
+    FROM
+        nhan_vien;
+SET SQL_SAFE_UPDATES = 0;
+UPDATE v1_nhan_vien 
 SET 
-    dia_chi = 'Liên Chiểu';
+    dia_chi = 'Liên Chiểu'
+WHERE
+    ma_nhan_vien = 2
+    LIMIT 1;
        
 -- 23.	Tạo Stored Procedure sp_xoa_khach_hang dùng để xóa thông tin của một khách hàng nào đó với ma_khach_hang được truyền vào như là 1 tham số của sp_xoa_khach_hang.
 DELIMITER //
@@ -451,6 +433,7 @@ DELETE FROM
 	ma_khach_hang = p_ma_khach_hang;
 END //
 DELIMITER ;
+
 CALL sp_xoa_khach_hang(2);
 
 -- 24.	Tạo Stored Procedure sp_them_moi_hop_dong dùng để thêm mới vào bảng hop_dong với yêu cầu sp_them_moi_hop_dong phải thực hiện kiểm tra tính hợp lệ của dữ liệu bổ sung,
@@ -482,9 +465,12 @@ FROM
 LIMIT 1;
 END //
 DELIMITER ;
+
 CALL sp_them_moi_hop_dong('2022-10-22','2022-10-24',2000000, 5,6,4);
 
-delete from hop_dong WHERE ma_hop_dong>10;
+DELETE FROM hop_dong 
+WHERE
+    ma_hop_dong > 10;
 
 -- 25.	Tạo Trigger có tên tr_xoa_hop_dong khi xóa bản ghi trong bảng hop_dong thì hiển thị tổng số lượng bản ghi còn lại có trong bảng hop_dong ra giao diện console của database.
 -- Lưu ý: Đối với MySQL thì sử dụng SIGNAL hoặc ghi log thay cho việc ghi ở console.
@@ -493,22 +479,33 @@ CREATE TRIGGER tr_xoa_hop_dong
 AFTER DELETE ON hop_dong
 FOR EACH ROW
 BEGIN
-insert into `history`(tong_record_con_lai, delete_day) 
+INSERT INTO `history`(tong_record_con_lai, delete_day) 
 SELECT count(hop_dong.ma_hop_dong), now()
 FROM hop_dong;
 END //
 DELIMITER ;
 
-select * from history;
-select * from hop_dong;
-DELETE FROM hop_dong WHERE ma_hop_dong = 3;
-drop TRIGGER tr_xoa_hop_dong;
+SELECT 
+    *
+FROM
+    history;
+    
+SELECT 
+    *
+FROM
+    hop_dong;
+    
+DELETE FROM hop_dong 
+WHERE
+    ma_hop_dong = 2;
+    
+DROP TRIGGER tr_xoa_hop_dong;
 
 -- tạo bảng để ghi log
-create table `history`(
-id int auto_increment primary key,
-tong_record_con_lai int,
-update_day date
+CREATE TABLE `history` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tong_record_con_lai INT,
+    delete_day DATE
 );
 
 -- 26.	Tạo Trigger có tên tr_cap_nhat_hop_dong khi cập nhật ngày kết thúc hợp đồng, cần kiểm tra xem thời gian cập nhật có phù hợp hay không,
@@ -519,12 +516,71 @@ CREATE TRIGGER tr_cap_nhat_hop_dong
 BEFORE UPDATE ON hop_dong
 FOR EACH ROW
 BEGIN
-declare ngay_cap_nhat date
-if (datediff(ngay_cap_nhat, ngay_lam_hop_dong) > 2),
-update hop_dong
-set ngay_ket_thuc = ngay_cap_nhat,
-insert into `history`(tong_hop_dong, update_day) 
-SELECT count(hop_dong.ma_hop_dong), now()
-FROM hop_dong;
+IF datediff(new.ngay_ket_thuc, old.ngay_lam_hop_dong) < 2 then
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = 'Ngày kết thúc hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất là 2 ngày';
+END IF ;
 END //
 DELIMITER ;
+
+DROP TRIGGER tr_cap_nhat_hop_dong;
+
+UPDATE hop_dong 
+SET 
+    ngay_ket_thuc = '2020-07-21'
+WHERE
+    ma_hop_dong = 2;
+
+-- 27.	Tạo Function thực hiện yêu cầu sau:
+-- a.	Tạo Function func_dem_dich_vu: Đếm các dịch vụ đã được sử dụng với tổng tiền là > 2.000.000 VNĐ.
+-- b.	Tạo Function func_tinh_thoi_gian_hop_dong: Tính khoảng thời gian dài nhất tính từ lúc bắt đầu làm hợp đồng đến lúc kết thúc hợp đồng mà khách hàng đã thực hiện thuê dịch vụ 
+-- (lưu ý chỉ xét các khoảng thời gian dựa vào từng lần làm hợp đồng thuê dịch vụ, không xét trên toàn bộ các lần làm hợp đồng). 
+-- Mã của khách hàng được truyền vào như là 1 tham số của function này.
+DELIMITER //
+CREATE FUNCTION func_dem_dich_vu()
+RETURNS INT
+DETERMINISTIC
+BEGIN
+DECLARE count INT;
+SET count = (
+SELECT 
+    count(*)
+FROM
+    (SELECT 
+        dv.ma_dich_vu
+    FROM
+        dich_vu dv
+    JOIN hop_dong hd ON hd.ma_dich_vu = dv.ma_dich_vu
+    GROUP BY hd.ma_dich_vu
+    HAVING SUM(dv.chi_phi_thue) > 2000000) AS count_dich_vu);
+RETURN count;
+END //
+DELIMITER ;
+
+SELECT func_dem_dich_vu();
+
+DROP FUNCTION func_dem_dich_vu;
+
+DELIMITER //
+CREATE FUNCTION func_tinh_thoi_gian_hop_dong(p_ma_khach_hang INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+DECLARE max_time INT;
+SET max_time = (
+SELECT 
+    max(thoi_gian_hop_dong)
+FROM
+    (SELECT 
+		(hd.ngay_ket_thuc - hd.ngay_lam_hop_dong) as thoi_gian_hop_dong
+    FROM
+        khach_hang kh
+    JOIN hop_dong hd ON hd.ma_khach_hang = p_ma_khach_hang
+    ) AS alias);
+RETURN max_time;
+END //
+DELIMITER ;
+
+SELECT func_tinh_thoi_gian_hop_dong(4);
+
+DROP FUNCTION func_tinh_thoi_gian_hop_dong;

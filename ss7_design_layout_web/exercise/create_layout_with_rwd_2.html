@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create layout with RWD</title>
+    <style>
+        #main {
+            width: 1000px;
+            margin: 0;
+            padding: 0;
+        }
+
+        #head {
+            height: 30px;
+            padding: 0;
+            margin: 0;
+            background-color: rgba(86, 86, 86, 0.88);
+            border: 1px solid black;
+        }
+
+        #head ul, li {
+            padding: 0;
+            margin: 0;
+        }
+
+        #head li {
+            position: relative;
+            float: left;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #head li a {
+            width: 100px;
+            height: 30px;
+            float: left;
+            text-decoration: none;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+
+        #head ul li a {
+            width: 60px;
+        }
+
+        #login {
+            width: 600px;
+float: left;
+        }
+
+        #head li a:hover {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <div id="head">
+        <ul>
+            <li><a href="#">Logo</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <ul>
+            <li id="login"><a href="#">Login</a></li>
+        </ul>
+    </div>
+    <div id="left"></div>
+    <div id="content"></div>
+    <div id="right"></div>
+    <div id="footer"></div>
+</div>
+</body>
+</html>

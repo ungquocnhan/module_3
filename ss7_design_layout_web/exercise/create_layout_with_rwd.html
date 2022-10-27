@@ -4,68 +4,207 @@
     <meta charset="UTF-8">
     <title>create layout with RWD</title>
     <style>
-        #main {
-            width: 1000px;
-            margin: 0;
-            padding: 0;
-        }
-
         #head {
             height: 30px;
             padding: 0;
             margin: 0;
-            background-color: rgba(86,86,86,0.88);
-            border: 1px solid black;
+            background-color: rgba(86, 86, 86, 0.88);
         }
-        #head ul, li{
-            padding: 0;
-            margin: 0;
-        }
-        #head li{
-            position: relative;
-            float: left;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        #head li a{
-            width: 100px;
+
+        #head a {
+            width: 60px;
             height: 30px;
-            display: block;
+            float: left;
             text-decoration: none;
             text-align: center;
             line-height: 30px;
             color: white;
         }
-        #head ul li a{
-            width: 50px;
-            text-align: left;
-            padding-left: 10px;
+
+        #head a:hover {
+            background-color: black;
         }
-        #login{
-            
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
         }
-#head li a:hover{
-    background-color: black;
-}
+
+        .head-right {
+            width: 80px;
+            height: 30px;
+            float: right;
+        }
+
+        #left {
+            min-height: 400px;
+            background-color: blanchedalmond;
+            float: left;
+        }
+
+        #left ul{
+            padding-inline-start: inherit;
+        }
+
+        #left li {
+            list-style: none;
+            position: relative;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+
+        #left li a {
+            width: auto;
+            height: 40px;
+            text-decoration: none;
+            line-height: 30px;
+            color: deepskyblue;
+        }
+
+        #left li:hover {
+            background-color: red;
+        }
+
+        #content {
+            min-height: 400px;
+            float: left;
+            font-family: Arial, serif;
+            font-size: 18px;
+            text-align: justify;
+        }
+
+        #content h1 {
+            padding: 5px 5px;
+            margin: 0 5px;
+        }
+
+        #content p {
+            text-indent: 30px;
+            line-height: 1.5;
+            letter-spacing: 2px;
+            padding: 0 5px;
+            margin: 0 5px;
+        }
+
+        #right {
+            min-height: 400px;
+            background-color: aquamarine;
+            float: right;
+        }
+
+
+        #right a {
+            width: 140px;
+            height: 60px;
+            display: block;
+            background-color: chartreuse;
+            text-decoration: none;
+            text-align: center;
+            color: blueviolet;
+            border: 1px solid black;
+            padding-top: 40px;
+            margin: 10px auto;
+
+        }
+
+        #footer {
+            height: 50px;
+            clear: both;
+            background-color: grey;
+            text-align: center;
+            color: white;
+        }
+
+        .row{
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /*màn hình điện thoai*/
+        @media only screen and (max-width:740px ){
+            .col-s-1 {width: 8.33333%;}
+            .col-s-2 {width: 16.66667%;}
+            .col-s-3 {width: 25%;}
+            .col-s-4 {width: 33.33333%;}
+            .col-s-5 {width: 41.66667%;}
+            .col-s-6 {width: 50%;}
+            .col-s-7 {width: 58.33333%;}
+            .col-s-8 {width: 66.66667%;}
+            .col-s-9 {width: 75%;}
+            .col-s-10 {width: 83.33333%;}
+            .col-s-11 {width: 91.66667%;}
+            .col-s-12 {width: 100%;}
+        }
+        /*Màn hinh laptop và máy tính bảng*/
+        @media only screen and (min-width:741px)and (max-width:1240px){
+            .col-m-1 {width: 8.33333%;}
+            .col-m-2 {width: 16.66667%;}
+            .col-m-3 {width: 25%;}
+            .col-m-4 {width: 33.33333%;}
+            .col-m-5 {width: 41.66667%;}
+            .col-m-6 {width: 50%;}
+            .col-m-7 {width: 58.33333%;}
+            .col-m-8 {width: 66.66667%;}
+            .col-m-9 {width: 75%;}
+            .col-m-10 {width: 83.33333%;}
+            .col-m-11 {width: 91.66667%;}
+            .col-m-12 {width: 100%;}
+        }
+        /*Màn hình máy tính pc và tivi smart*/
+        @media only screen and (min-width:1241px){
+            .col-l-1 {width: 8.33333%;}
+            .col-l-2 {width: 16.66667%;}
+            .col-l-3 {width: 25%;}
+            .col-l-4 {width: 33.33333%;}
+            .col-l-5 {width: 41.66667%;}
+            .col-l-6 {width: 50%;}
+            .col-l-7 {width: 58.33333%;}
+            .col-l-8 {width: 66.66667%;}
+            .col-l-9 {width: 75%;}
+            .col-l-10 {width: 83.33333%;}
+            .col-l-11 {width: 91.66667%;}
+            .col-l-12 {width: 100%;}
+        }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div id="main">
     <div id="head">
-        <ul>
-            <li><a href="#">Logo</a></li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-        <ul><li id="login"><a href="#">Login</a></li></ul>
+        <div class="logo">
+            <a href="#">Logo</a>
+        </div>
+
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Projects</a>
+        <a href="#">Contact</a>
+
+        <div class="head-right">
+            <button href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</button>
+        </div>
     </div>
-    <div id="left"></div>
-    <div id="content"></div>
-    <div id="right"></div>
-    <div id="footer"></div>
+    <div class="row">
+    <div id="left" class="col-s-12 col-m-2 col-l-2">
+        <ul>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+        </ul>
+    </div>
+    <div id="content" class="col-s-12 col-m-10 col-l-8">
+        <h1>Việt Nam</h1>
+        <p>
+            Việt Nam, tên gọi chính thức là Cộng hòa Xã hội Chủ nghĩa Việt Nam, là một quốc gia nằm ở cực Đông của bán
+            đảo Đông Dương thuộc khu vực Đông Nam Á, giáp với Lào, Campuchia, Trung Quốc, biển Đông và vịnh Thái Lan.
+        </p>
+    </div>
+    <div id="right" class="col-s-12 col-m-12 col-l-2">
+        <a href="#">ADS</a>
+        <a href="#">ADS</a>
+    </div>
+    </div>
+    <div id="footer">Footer Text</div>
 </div>
 </body>
 </html>

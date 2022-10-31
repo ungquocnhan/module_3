@@ -1,0 +1,30 @@
+h1{
+    height: 20px;
+}
+.center{
+    font-family: Arial,serif;
+    font-size: 18px;
+    border: 1px;
+    padding: 5px 10px;
+    margin: 5px 25px;
+    text-align: justify;
+}
+p{
+    text-indent: 50px;
+    line-height: 1.5;
+    letter-spacing: 2px;
+}
+.center1{
+    color: dodgerblue;
+    text-decoration: none;
+}
+.center2{
+    color: darkblue;
+}
+.center3{
+    font-weight: bold;
+}
+.center4{
+    text-decoration: none;
+    color: blue;
+}

@@ -1,7 +1,64 @@
-.nav-size{
+* {
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-size {
     padding-top: 13px;
     font-size: 10px;
     text-align: center;
+}
+
+.div-switch {
+    padding-right: 50px;
+}
+
+.switch-class {
+    padding-top: 8px;
+}
+
+.div-row-2 {
+    border: 1px solid black;
+    margin-bottom: 5px;
+}
+
+.div-row2-1 {
+    background-color: #b6effb;
+    padding: 200px 30px;
+}
+
+.div-row2-1 a {
+    text-decoration: none;
+}
+
+.div-row2-2 {
+    background-color: #0dcaf0;
+}
+
+.div-row-3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.div-row-3-1 a {
+    text-decoration: none;
+    text-align: justify;
+}
+
+.div-row-4{
+    margin-top: 20px;
+}
+
+.div-row-4-1 a{
+    text-decoration: none;
+}
+
+.div-row-4-2 {
+    margin: 2px 0;
 }
 
 /*.searchbar{*/

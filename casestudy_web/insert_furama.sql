@@ -1,6 +1,6 @@
 INSERT INTO case_study_furama_web.position (name)
 VALUE ('Quản Lý'),
-	  ('NHân Viên');
+	  ('Nhân Viên');
 
 INSERT INTO case_study_furama_web.education_degree (name)
 VALUE ('Trung Cấp'),
@@ -8,29 +8,11 @@ VALUE ('Trung Cấp'),
       ('Đại Học'), 
       ('Sau Đại Học');
       
-INSERT INTO case_study_furama_web.division (division)
+INSERT INTO case_study_furama_web.division (name)
 VALUE ('Sale-Marketing'),
 	  ('Hành Chính'),
       ('Phục vụ'),
       ('QUản lý');
-      
-INSERT INTO user (username, password)
-VALUE 	('nguyenan', '1234abcd'),
-		('lebinh', '1234abcd'),
-		('hoyen', '1234abcd'),
-		('votoan', '1234abcd'),
-		('nguyenphat', '1234abcd'),
-		('khucnghi', '1234abcd'),
-		('nguyenha', '1234abcd'),
-		('nguyendong', '1234abcd'),
-		('tonghoang', '1234abcd'),
-		('nguyendao', '1234abcd');
-        
-INSERT INTO role (role_name)
-VALUE();
-
-INSERT INTO user_role (role_id, username)
-VALUE();
       
 INSERT INTO case_study_furama_web.employee ( name, day_of_birth, id_card, salary, phone_number, email, address, position_id, education_degree_id, division_id) 
 VALUE
@@ -71,7 +53,7 @@ VALUE ('year'),
       ('day'),
       ('hour');
       
-INSERT INTO case_study_furama_web.facility_type (name)
+INSERT INTO case_study_furama_web.rent_type (name)
 VALUE ('Villa'),
       ('House'),
       ('Room');

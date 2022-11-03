@@ -58,7 +58,7 @@ VALUE ('Villa'),
       ('House'),
       ('Room');
       
-INSERT INTO case_study_furama_web.facility (name, area, cost, max_people, standard_room, description_other_convenience, pool_area, number_of_floors, facility_free, rent_type_id, facility_type_id)
+INSERT INTO case_study_furama_web.facility (name, area, cost, max_people, standard_room, description_other_convenience, pool_area, number_of_floors, facility_free,facility_type_id, rent_type_id)
 VALUE
 ('Villa Beach Front', 25000, 1000000, 10, 'vip', 'Có hồ bơi', 500, 4, null, 3, 1),
 ('House Princess 01', 14000, 5000000, 7, 'vip', 'Có thêm bếp nướng', null, 3, null, 2, 2),

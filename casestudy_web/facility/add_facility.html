@@ -7,7 +7,9 @@
 
 </head>
 <body>
-<form>
+<button onclick="showForm()" class="btn btn-primary btn-sm">Add facility</button>
+
+<form id="formElement" style="display: none;">
     <div class="form-group">
         <label for="id">ID</label>
         <input type="text" class="form-control" id="id" aria-describedby="id" placeholder="ID">
@@ -66,5 +68,10 @@
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
 </body>
+<script type="text/javascript">
+    function showForm() {
+        document.getElementById('formElement').style.display = 'block';
+    }
+</script>
 <script src="../../bootstrap-5.0.2-dist/js/bootstrap.js"></script>
 </html>

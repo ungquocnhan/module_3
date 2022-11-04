@@ -7,17 +7,15 @@
 
 </head>
 <body>
-<button onclick="showForm()" class="btn btn-primary btn-sm">Add customer</button>
 
-<div id="formElement" style="display: none;">
 <form class="row">
-    <div class="col-md-6">
-        <label class="form-label">First Name</label>
-        <input type="text" class="form-control" placeholder="First Name">
+    <div class="col-md-2">
+        <label class="form-label">Id</label>
+        <input type="text" class="form-control" placeholder="Id">
     </div>
-    <div class="col-md-6">
-        <label class="form-label">Last Name</label>
-        <input type="text" class="form-control" placeholder="Last Name">
+    <div class="col-md-10">
+        <label class="form-label">Name Customer</label>
+        <input type="text" class="form-control" placeholder="Name Customer">
     </div>
     <div class="col-md-3">
         <label class="form-label">Day of Birth</label>
@@ -26,11 +24,12 @@
     <div class="col-md-3">
         <label class="form-label">Customer Type</label>
         <select name="" id="" class="form-select">
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
-            <option value="">5</option>
+            <option>Please choose</option>
+            <option value="1">Diamond</option>
+            <option value="2">Platinium</option>
+            <option value="3">Gold</option>
+            <option value="4">Silver</option>
+            <option value="5">Member</option>
         </select>
     </div>
     <div class="col-md-3">
@@ -70,12 +69,7 @@
         <button class="btn btn-primary form-control">Add</button>
     </div>
 </form>
-</div>
+
 </body>
 <script src="../../bootstrap-5.0.2-dist/js/bootstrap.js"></script>
-<script type="text/javascript">
-    function showForm() {
-        document.getElementById('formElement').style.display = 'block';
-    }
-</script>
 </html>

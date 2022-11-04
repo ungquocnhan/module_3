@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Employee</title>
+    <link rel="stylesheet" href="../../bootstrap-5.0.2-dist/css/bootstrap.css">
+</head>
+<body>
+<button onclick="showForm()" class="btn btn-primary btn-sm">Edit Employee</button>
+
+<div id="formElement" style="display: none;">
+    <form class="row">
+        <div class="col-md-12">
+            <label class="form-label">Name Employee</label>
+            <input type="text" class="form-control" placeholder="Name Employee">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Birthday</label>
+            <input type="date" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">ID Card</label>
+            <input type="text" class="form-control" placeholder="ID Card">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Salary</label>
+            <input type="text" class="form-control" placeholder="Salary">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Phone Number</label>
+            <input type="text" class="form-control" placeholder="Phone Number">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Address</label>
+            <input type="text" class="form-control" placeholder="Address">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Account</label>
+            <input type="text" class="form-control" placeholder="Account">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Gender</label>
+            <br>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="rdo" checked>
+                <label class="form-check-label">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="rdo">
+                <label class="form-check-label">Female</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="rdo">
+                <label class="form-check-label">Other</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Position</label>
+            <select name="position" id="position" class="form-select">
+                <option>Please choose</option>
+                <option value="1">Quản Lý</option>
+                <option value="2">Nhân Viên</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Education Degree</label>
+            <select name="education_degree" id="education-degree" class="form-select">
+                <option>Please choose</option>
+                <option value="1">Trung Cấp</option>
+                <option value="2">Cao Đẳng</option>
+                <option value="3">Đại Học</option>
+                <option value="4">Sau Đại Học</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Division</label>
+            <select name="division" id="division" class="form-select">
+                <option>Please choose</option>
+                <option value="1">Sale-Marketing</option>
+                <option value="2">Hành Chính</option>
+                <option value="3">Phục vụ</option>
+                <option value="4">Quản lý</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <br>
+            <button class="btn btn-primary form-control">Add</button>
+        </div>
+    </form>
+</div>
+</body>
+<script src="../../bootstrap-5.0.2-dist/js/bootstrap.js"></script>
+<script type="text/javascript">
+    function showForm() {
+        document.getElementById('formElement').style.display = 'block';
+    }
+</script>
+</html>

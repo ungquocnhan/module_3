@@ -7,71 +7,65 @@
 
 </head>
 <body>
-<button onclick="showForm()" class="btn btn-primary btn-sm">Add facility</button>
 
-<form id="formElement" style="display: none;">
+<form>
     <div class="form-group">
-        <label for="id">ID</label>
-        <input type="text" class="form-control" id="id" aria-describedby="id" placeholder="ID">
+        <label for="id">Id</label>
+        <input type="text" class="form-control" id="id" aria-describedby="id" placeholder="Id" name="id">
     </div>
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Name facility">
+        <input type="text" class="form-control" id="name" placeholder="Name facility" name="name">
     </div>
     <div class="form-group">
         <label for="area">Area</label>
-        <input type="text" class="form-control" id="area" placeholder="Area">
+        <input type="text" class="form-control" id="area" placeholder="Area" name="area">
     </div>
     <div class="form-group">
         <label for="cost">Cost</label>
-        <input type="text" class="form-control" id="cost" placeholder="Cost">
+        <input type="text" class="form-control" id="cost" placeholder="Cost" name="cost">
     </div>
     <div class="form-group">
         <label for="max-people">Max people</label>
-        <input type="text" class="form-control" id="max-people" placeholder="Cost">
+        <input type="text" class="form-control" id="max-people" placeholder="Max people" name="max_people">
     </div>
     <div class="form-group">
         <label for="standard-room">Standard Room</label>
-        <input type="text" class="form-control" id="standard-room" placeholder="Cost">
+        <input type="text" class="form-control" id="standard-room" placeholder="Standard room" name="standard_room">
     </div>
     <div class="form-group">
         <label for="description-other-convenience">Description other convenience</label>
-        <input type="text" class="form-control" id="description-other-convenience" placeholder="Cost">
+        <input type="text" class="form-control" id="description-other-convenience" placeholder="Description other convenience" name="description_other_convenience">
     </div>
     <div class="form-group">
         <label for="pool-area">Pool Area</label>
-        <input type="text" class="form-control" id="pool-area" placeholder="Cost">
+        <input type="text" class="form-control" id="pool-area" placeholder="Pool area" name="pool_area">
     </div>
     <div class="form-group">
         <label for="number-of-floor">Number of floor</label>
-        <input type="text" class="form-control" id="number-of-floor" placeholder="Cost">
+        <input type="text" class="form-control" id="number-of-floor" placeholder="Number of floor" name="number_of_floor">
     </div>
     <div class="form-group">
         <label for="facility-free">Facility free</label>
-        <input type="text" class="form-control" id="facility-free" placeholder="Cost">
+        <input type="text" class="form-control" id="facility-free" placeholder="Facility free" name="facility_free">
     </div>
     <div>
         <select class="custom-select">
-            <option selected>Rent type ID</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <option selected>Rent type</option>
+            <option value="1">Year</option>
+            <option value="2">Month</option>
+            <option value="3">Day</option>
+            <option value="4">Hour</option>
         </select></div>
     <div>
         <select class="custom-select">
-            <option selected>Facility type ID</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <option selected>Facility type</option>
+            <option value="1">Villa</option>
+            <option value="2">House</option>
+            <option value="3">Room</option>
         </select></div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
 </body>
-<script type="text/javascript">
-    function showForm() {
-        document.getElementById('formElement').style.display = 'block';
-    }
-</script>
 <script src="../../bootstrap-5.0.2-dist/js/bootstrap.js"></script>
 </html>

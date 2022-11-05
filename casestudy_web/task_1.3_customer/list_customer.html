@@ -2,45 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Employee List</title>
+    <title>List Customer</title>
     <link rel="stylesheet" href="../../bootstrap-5.0.2-dist/css/bootstrap.css">
 </head>
 <body>
-
+<h1>List Customer</h1>
 <table class="table table-bordered">
     <thead>
     <tr>
         <th scope="col">STT</th>
-        <th scope="col">Name</th>
-        <th scope="col">DayBirth</th>
+        <th scope="col">Name customer</th>
+        <th scope="col">Day of Birth</th>
         <th scope="col">Gender</th>
         <th scope="col">ID Card</th>
-        <th scope="col">Salary</th>
         <th scope="col">Phone Number</th>
         <th scope="col">Email</th>
         <th scope="col">Address</th>
-        <th scope="col">Position</th>
-        <th scope="col">Education Degree</th>
-        <th scope="col">Division</th>
-        <th scope="col">Account</th>
+        <th scope="col">Customer Type</th>
         <th scope="col">Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <th scope="row">1</th>
-        <td>Nguyễn Văn An</td>
+        <td>Nguyễn Thị Hào</td>
         <td>1970-11-07</td>
-        <td>Nam</td>
-        <td>456231786</td>
-        <td>10000000</td>
-        <td>0901234121</td>
-        <td>annguyen@gmail.Com</td>
-        <td>295 Nguyễn Tất Thành, Đà Nẵng</td>
-        <td>Quản Lý</td>
-        <td>Đại Học</td>
-        <td>Sale-Marketing</td>
-        <td>fuannguyen</td>
+        <td>Nữ</td>
+        <td>643431213</td>
+        <td>0945423362</td>
+        <td>thihao07@gmail.com</td>
+        <td>23 Nguyễn Hoàng, Đà Nẵng</td>
+        <td>Member</td>
         <td>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -50,18 +42,14 @@
     </tr>
     <tr>
         <th scope="row">2</th>
-        <td>Lê Văn Bình</td>
-        <td>1997-04-09</td>
+        <td>Phạm Xuân Diệu</td>
+        <td>1992-08-08</td>
         <td>Nam</td>
-        <td>654231234</td>
-        <td>7000000</td>
-        <td>0934212314</td>
-        <td>binhlv@gmail.com</td>
-        <td>22 Yên Bái, Đà Nẵng</td>
-        <td>Quản Lý</td>
-        <td>Cao Đẳng</td>
-        <td>Hành Chính</td>
-        <td>fubinhle</td>
+        <td>865342123</td>
+        <td>0954333333</td>
+        <td>xuandieu92@gmail.com</td>
+        <td>K77/22 Thái Phiên, Quảng Trị</td>
+        <td>Gold</td>
         <td>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -71,18 +59,14 @@
     </tr>
     <tr>
         <th scope="row">3</th>
-        <td>Nguyễn Bỉnh Phát</td>
-        <td>1999-12-09</td>
+        <td>Trương Đình Nghệ</td>
+        <td>1990-02-27</td>
         <td>Nam</td>
-        <td>454363232</td>
-        <td>6000000</td>
-        <td>0902341231</td>
-        <td>phatphat@gmail.com</td>
-        <td>43 Yên Bái, Đà Nẵng</td>
-        <td>Nhân Viên</td>
-        <td>Trung Cấp</td>
-        <td>Sale-Marketing</td>
-        <td>fuphatnguyen</td>
+        <td>488645199</td>
+        <td>0373213122</td>
+        <td>nghenhan2702@gmail.com</td>
+        <td>K323/12 Ông Ích Khiêm, Vinh</td>
+        <td>Diamond</td>
         <td>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -93,16 +77,18 @@
     </tbody>
 </table>
 
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Employee</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you want to delete this employee?
+                Are you want to delete this customer?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -112,5 +98,6 @@
     </div>
 </div>
 </body>
+
 <script src="../../bootstrap-5.0.2-dist/js/bootstrap.js"></script>
 </html>

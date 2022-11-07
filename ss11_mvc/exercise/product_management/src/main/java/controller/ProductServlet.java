@@ -42,11 +42,10 @@ public class ProductServlet extends HttpServlet {
 
     private void search(HttpServletRequest request, HttpServletResponse response) {
         String name = request.getParameter("name");
-        List<Product> products = this.iProductService.findByName(name);
-        this.iProductService.findByName(name);
-        request.setAttribute("products", products);
+        List<Product> productList = this.iProductService.findByName(name);
+        request.setAttribute("productList", productList);
         try {
-            request.getRequestDispatcher("view/product/search.jsp").forward(request, response);
+            request.getRequestDispatcher("view/product/list.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
@@ -54,7 +53,6 @@ public class ProductServlet extends HttpServlet {
 
     private void delete(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = this.iProductService.findById(id);
         this.iProductService.delete(id);
         try {
             response.sendRedirect("/product");
@@ -121,25 +119,10 @@ public class ProductServlet extends HttpServlet {
             case "view":
                 showView(request, response);
                 break;
-            case "search":
-                showSearchNameProduct(request, response);
-                break;
             default:
                 showListProduct(request, response);
                 break;
         }
-    }
-
-    private void showSearchNameProduct(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("name");
-        List<Product> products = this.iProductService.findByName(name);
-        request.setAttribute("products", products);
-        try {
-            request.getRequestDispatcher("view/product/search.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void showView(HttpServletRequest request, HttpServletResponse response) {

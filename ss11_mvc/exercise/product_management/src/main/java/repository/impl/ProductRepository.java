@@ -48,13 +48,12 @@ public class ProductRepository implements IProductRepository {
     @Override
     public List<Product> findByName(String name) {
         List<Product> products = new ArrayList<>();
-
         if (productMap.size() == 0){
             return  products;
         }
 
         for (Product product : productMap.values()){
-            if(product.getName().equals(name)){
+            if(product.getName().contains(name)){
                 products.add(product);
             }
         }

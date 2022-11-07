@@ -18,4 +18,24 @@ public class CustomerService implements ICustomerService {
     public boolean insertCustomer(Customer customer) {
         return iCustomerRepository.insertCustomer(customer);
     }
+
+    @Override
+    public Customer selectCustomer(int id) {
+        return iCustomerRepository.selectCustomer(id);
+    }
+
+    @Override
+    public boolean isUpdateCustomer(Customer customer) {
+        return iCustomerRepository.isUpdateCustomer(customer);
+    }
+
+    @Override
+    public boolean isDeleteCustomer(int id) {
+        return iCustomerRepository.isDeleteCustomer(id);
+    }
+
+    @Override
+    public List<Customer> searchByName(String name) {
+        return iCustomerRepository.searchByName(name);
+    }
 }

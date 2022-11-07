@@ -11,13 +11,18 @@
 <html>
 <head>
     <title>Customer Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
 </head>
 <body>
 <center>
     <h1>Customer Management</h1>
     <h2><a href="/customer?action=create">Add New Customer</a></h2>
+    <h2>
+        <form action="/customer?action=search" method="post">
+            <pre>Search Name:   <input type="text" name="name"><button>Search</button></pre>
+        </form>
     </h2>
 </center>
 
@@ -33,6 +38,8 @@
         <th scope="col">Email</th>
         <th scope="col">Address</th>
         <th scope="col">Customer Type Id</th>
+        <th scope="row">Edit</th>
+        <th scope="row">Delete</th>
     </tr>
     </thead>
     <tbody>
@@ -47,12 +54,24 @@
             <td>${customer.getEmail()}</td>
             <td>${customer.getAddress()}</td>
             <td>${customer.getCustomerTypeId()}</td>
+            <td>
+                <button type="button" class="btn btn-success btn-sm color-palette">
+                    <a href="/customer?action=edit&id=${customer.getId()}">Edit</a>
+                </button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-success btn-sm color-palette">
+                    <a href="/customer?action=delete&id=${customer.getId()}">Delete</a>
+                </button>
+            </td>
         </tr>
     </c:forEach>
 
     </tbody>
 </table>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
 
 </html>

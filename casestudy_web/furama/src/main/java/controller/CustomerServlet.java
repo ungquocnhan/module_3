@@ -25,8 +25,51 @@ public class CustomerServlet extends HttpServlet {
             case "save":
                 addCustomer(request, response);
                 break;
+            case "edit":
+                editCustomer(request, response);
+                break;
+            case "search":
+                searchCustomer(request,response);
+                break;
 
         }
+    }
+
+    private void searchCustomer(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("name");
+        List<Customer> customerList = iCustomerService.searchByName(name);
+        request.setAttribute("customerList", customerList);
+        try {
+            request.getRequestDispatcher("view/customer/list.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void editCustomer(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String birthday = request.getParameter("birthday");
+        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+        String idCard = request.getParameter("idCard");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        int customerTypeId = Integer.parseInt(request.getParameter("customerTypeId"));
+        Customer customerEdit = new Customer(id, name, birthday, gender, idCard, phoneNumber, email, address, customerTypeId);
+
+        boolean check = iCustomerService.isUpdateCustomer(customerEdit);
+        String message = "Edit No Success";
+        if (check) {
+            message = "Edit Success";
+        }
+        request.setAttribute("message", message);
+        try {
+            request.getRequestDispatcher("view/customer/edit.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void addCustomer(HttpServletRequest request, HttpServletResponse response) {
@@ -41,7 +84,7 @@ public class CustomerServlet extends HttpServlet {
         Customer newCustomer = new Customer(name, birthday, gender, idCard, phoneNumber, email, address, customerTypeId);
         boolean check = iCustomerService.insertCustomer(newCustomer);
         String message = "Add Customer No Success";
-        if(check){
+        if (check) {
             message = "Add Customer Success";
         }
         request.setAttribute("message", message);
@@ -62,9 +105,38 @@ public class CustomerServlet extends HttpServlet {
             case "create":
                 showCreateInsertCustomer(request, response);
                 break;
+            case "edit":
+                showEditCustomer(request, response);
+                break;
+            case "delete":
+                deleteCustomer(request,response);
+                break;
             default:
                 showListCustomer(request, response);
                 break;
+        }
+    }
+
+    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        iCustomerService.isDeleteCustomer(id);
+        List<Customer> customerList = iCustomerService.selectAllCustomer();
+        request.setAttribute("customerList", customerList);
+        try {
+            request.getRequestDispatcher("view/customer/list.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showEditCustomer(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Customer customerExists = iCustomerService.selectCustomer(id);
+        request.setAttribute("customer", customerExists);
+        try {
+            request.getRequestDispatcher("view/customer/edit.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 

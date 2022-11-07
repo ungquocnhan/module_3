@@ -15,6 +15,9 @@
 <center>
     <h1>User Management</h1>
     <h2><a href="/user">Back List</a></h2>
+    <h2><c:if test="${message != null}">
+        <span style="color: darkred">${message}</span>
+    </c:if></h2>
 </center>
 
 <div align="center">

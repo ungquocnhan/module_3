@@ -9,12 +9,12 @@ public class Customer {
     private String phoneNumber;
     private String email;
     private String address;
-    private String customerType;
+    private int customerTypeId;
 
     public Customer() {
     }
 
-    public Customer(String name, String birthday, boolean gender, String idCard, String phoneNumber, String email, String address, String customerType) {
+    public Customer(String name, String birthday, boolean gender, String idCard, String phoneNumber, String email, String address, int customerTypeId) {
         this.name = name;
         this.birthday = birthday;
         this.gender = gender;
@@ -22,10 +22,10 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-        this.customerType = customerType;
+        this.customerTypeId = customerTypeId;
     }
 
-    public Customer(int id, String name, String birthday, boolean gender, String idCard, String phoneNumber, String email, String address, String customerType) {
+    public Customer(int id, String name, String birthday, boolean gender, String idCard, String phoneNumber, String email, String address, int customerTypeId) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -34,7 +34,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-        this.customerType = customerType;
+        this.customerTypeId = customerTypeId;
     }
 
     public int getId() {
@@ -101,11 +101,11 @@ public class Customer {
         this.address = address;
     }
 
-    public String getCustomerType() {
-        return customerType;
+    public int getCustomerTypeId() {
+        return customerTypeId;
     }
 
-    public void setCustomerType(String customerType) {
-        this.customerType = customerType;
+    public void setCustomerTypeId(int customerTypeId) {
+        this.customerTypeId = customerTypeId;
     }
 }

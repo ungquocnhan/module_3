@@ -18,7 +18,7 @@ public class UserServlet extends HttpServlet {
     private IUserService iUserService = new UserService();
     private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -36,11 +36,15 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void search(HttpServletRequest request, HttpServletResponse response){
     String countrySearch = request.getParameter("country");
     List<User> userList = this.iUserService.searchByCountry(countrySearch);
     request.setAttribute("userList", userList);
-    request.getRequestDispatcher("view/user/list.jsp").forward(request,response);
+        try {
+            request.getRequestDispatcher("view/user/list.jsp").forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response) {
@@ -50,7 +54,13 @@ public class UserServlet extends HttpServlet {
         String country = request.getParameter("country");
         User updateUser = new User(id, name, email, country);
 
-        iUserService.isUpdateUser(updateUser);
+        boolean check = iUserService.isUpdateUser(updateUser);
+        String message = "Edit No Success";
+        if(check){
+            message = "Edit Success";
+        }
+        
+        request.setAttribute("message", message);
         try {
             request.getRequestDispatcher("view/user/edit.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
@@ -64,6 +74,7 @@ public class UserServlet extends HttpServlet {
         String country = request.getParameter("country");
         User newUser = new User(name, email, country);
         iUserService.insertUser(newUser);
+        request.setAttribute("message", "Add new success");
         try {
             request.getRequestDispatcher("view/user/create.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
@@ -71,7 +82,7 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response){
         String action = request.getParameter("action");
         if (action == null) {
             action = "";

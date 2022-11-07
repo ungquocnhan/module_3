@@ -12,3 +12,4 @@ INSERT INTO users(name, email, country)
 VALUE ('Minh','minh@codegym.vn','Viet Nam'),
 	  ('Kante','kante@che.uk','Kenia');
       
+select * from users WHERE country like '%Viet Nam';

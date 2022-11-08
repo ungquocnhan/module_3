@@ -3,7 +3,9 @@ package repository.impl;
 import model.User;
 import repository.IUserRepository;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +18,22 @@ public class UserRepository implements IUserRepository {
     private static final String SELECT_USER_BY_ID = "select id, name, email, country from users where id =?";
     private static final String SELECT_ALL_USERS = "select * from users";
     private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
-    private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
+    private static final String UPDATE_USERS_SQL = "update users set name = ?, email = ?, country =? where id = ?;";
     private static final String SEARCH_USERS_BY_COUNTRY = "select * from users where country like ?;";
-//    private static final String SEARCH_USERS_BY_COUNTRY = "select * from users where country = ? ;";
+    private static final String SQL_INSERT = "INSERT INTO EMPLOYEE (NAME, SALARY, CREATED_DATE) VALUES (?,?,?)";
+    private static final String SQL_UPDATE = "UPDATE EMPLOYEE SET SALARY=? WHERE NAME=?";
+    private static final String SQL_TABLE_CREATE = "CREATE TABLE EMPLOYEE"
+            + "("
+            + " ID serial,"
+            + " NAME varchar(100) NOT NULL,"
+            + " SALARY numeric(15, 2) NOT NULL,"
+            + " CREATED_DATE timestamp,"
+            + " PRIMARY KEY (ID)"
+            + ")";
+    private static final String SQL_TABLE_DROP = "DROP TABLE IF EXISTS EMPLOYEE";
+
+
+    //    private static final String SEARCH_USERS_BY_COUNTRY = "select * from users where country = ? ;";
 
     public UserRepository() {
     }
@@ -244,12 +259,12 @@ public class UserRepository implements IUserRepository {
             }
 
         } catch (SQLException throwables) {
-                try {
-                    if (connection != null)
+            try {
+                if (connection != null)
                     connection.rollback();
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
 
             System.out.println(throwables.getMessage());
         } finally {
@@ -266,6 +281,131 @@ public class UserRepository implements IUserRepository {
 
             }
         }
+    }
+
+    @Override
+    public void insertUpdateUseTransaction() {
+        Connection connection = getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            PreparedStatement psInsert = connection.prepareStatement(SQL_INSERT);
+            PreparedStatement psUpdate = connection.prepareStatement(SQL_UPDATE);
+            statement.execute(SQL_TABLE_DROP);
+            statement.execute(SQL_TABLE_CREATE);
+
+            connection.setAutoCommit(false);
+
+            psInsert.setString(1, "Quynh");
+            psInsert.setBigDecimal(2, new BigDecimal(10));
+            psInsert.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            psInsert.execute();
+
+            psInsert.setString(1, "Ngan");
+            psInsert.setBigDecimal(2, new BigDecimal(20));
+            psInsert.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            psInsert.execute();
+
+//            psUpdate.setBigDecimal(2, new BigDecimal("999.99"));
+            psUpdate.setBigDecimal(1, new BigDecimal("999.99"));
+
+            psUpdate.setString(2, "Quynh");
+            psUpdate.execute();
+
+            connection.commit();
+
+            connection.setAutoCommit(true);
+
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getMessage());
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public void insertUpdateWithoutTransaction() {
+        Connection connection = getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            PreparedStatement psInsert = connection.prepareStatement(SQL_INSERT);
+            PreparedStatement psUpdate = connection.prepareStatement(SQL_UPDATE);
+            statement.execute(SQL_TABLE_DROP);
+            statement.execute(SQL_TABLE_CREATE);
+
+            psInsert.setString(1, "Quynh");
+            psInsert.setBigDecimal(2, new BigDecimal(10));
+            psInsert.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            psInsert.execute();
+
+            psInsert.setString(1, "Ngan");
+            psInsert.setBigDecimal(2, new BigDecimal(10));
+            psInsert.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            psInsert.execute();
+
+            psUpdate.setBigDecimal(2, new BigDecimal("999.99"));
+//            psUpdate.setBigDecimal(1, new BigDecimal("999.99"));
+
+            psUpdate.setString(2, "Quynh");
+            psUpdate.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<User> displayListUser() {
+        List<User> userList = new ArrayList<>();
+        String query = "{CALL get_all_user()}";
+        Connection connection = getConnection();
+        try {
+            CallableStatement callableStatement = connection.prepareCall(query);
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                String country = resultSet.getString("country");
+                User user = new User(id, name, email, country);
+                userList.add(user);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return userList;
+    }
+
+    @Override
+    public boolean isEditUser(User user) {
+        String query = "{CALL get_edit_user(?,?,?,?)}";
+        Connection connection = getConnection();
+        try {
+            CallableStatement callableStatement = connection.prepareCall(query);
+            callableStatement.setString(1, user.getName());
+            callableStatement.setString(2, user.getEmail());
+            callableStatement.setString(3, user.getCountry());
+            callableStatement.setInt(4, user.getId());
+
+            return callableStatement.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isDeleteUserCall(int id) {
+        String query = "{CALL get_delete_user_by_id(?)}";
+        Connection connection = getConnection();
+        try {
+            CallableStatement callableStatement = connection.prepareCall(query);
+            callableStatement.setInt(1,id);
+            return callableStatement.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 
 

@@ -18,7 +18,7 @@ public class UserServlet extends HttpServlet {
     private IUserService iUserService = new UserService();
     private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -36,12 +36,12 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    private void search(HttpServletRequest request, HttpServletResponse response){
-    String countrySearch = request.getParameter("country");
-    List<User> userList = this.iUserService.searchByCountry(countrySearch);
-    request.setAttribute("userList", userList);
+    private void search(HttpServletRequest request, HttpServletResponse response) {
+        String countrySearch = request.getParameter("country");
+        List<User> userList = this.iUserService.searchByCountry(countrySearch);
+        request.setAttribute("userList", userList);
         try {
-            request.getRequestDispatcher("view/user/list.jsp").forward(request,response);
+            request.getRequestDispatcher("view/user/list.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
@@ -54,12 +54,13 @@ public class UserServlet extends HttpServlet {
         String country = request.getParameter("country");
         User updateUser = new User(id, name, email, country);
 
-        boolean check = iUserService.isUpdateUser(updateUser);
+//        boolean check = iUserService.isUpdateUser(updateUser);
+        boolean check = iUserService.isEditUser(updateUser);
         String message = "Edit No Success";
-        if(check){
+        if (check) {
             message = "Edit Success";
         }
-        
+
         request.setAttribute("message", message);
         try {
             request.getRequestDispatcher("view/user/edit.jsp").forward(request, response);
@@ -83,7 +84,7 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -101,10 +102,24 @@ public class UserServlet extends HttpServlet {
             case "permision":
                 addUserPermission(request, response);
                 break;
+            case "test-without-tran":
+                testWithoutTran(request, response);
+                break;
+            case "test-use-tran":
+                testUseTran(request, response);
+                break;
             default:
                 listUser(request, response);
                 break;
         }
+    }
+
+    private void testUseTran(HttpServletRequest request, HttpServletResponse response) {
+        iUserService.insertUpdateUseTransaction();
+    }
+
+    private void testWithoutTran(HttpServletRequest request, HttpServletResponse response) {
+        iUserService.insertUpdateWithoutTransaction();
     }
 
     private void addUserPermission(HttpServletRequest request, HttpServletResponse response) {
@@ -127,18 +142,21 @@ public class UserServlet extends HttpServlet {
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        iUserService.isDeleteUser(id);
-        List<User> userList = iUserService.selectAllUsers();
-        request.setAttribute("userList", userList);
-        try {
-            request.getRequestDispatcher("view/user/list.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
+//        iUserService.isDeleteUser(id);
+        iUserService.isDeleteUserCall(id);
+        listUser(request, response);
+//        List<User> userList = iUserService.selectAllUsers();
+//        request.setAttribute("userList", userList);
+//        try {
+//            request.getRequestDispatcher("view/user/list.jsp").forward(request, response);
+//        } catch (ServletException | IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void listUser(HttpServletRequest request, HttpServletResponse response) {
-        List<User> userList = iUserService.selectAllUsers();
+//        List<User> userList = iUserService.selectAllUsers();
+        List<User> userList = iUserService.displayListUser();
         request.setAttribute("userList", userList);
         try {
             request.getRequestDispatcher("view/user/list.jsp").forward(request, response);

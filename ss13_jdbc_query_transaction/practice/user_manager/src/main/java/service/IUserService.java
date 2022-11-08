@@ -23,5 +23,13 @@ public interface IUserService {
 
     void addUserTransaction(User user, int[] permission);
 
+    void insertUpdateWithoutTransaction();
 
+    void insertUpdateUseTransaction();
+
+    List<User> displayListUser();
+
+    boolean isEditUser(User user);
+
+    boolean isDeleteUserCall(int id);
 }

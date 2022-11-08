@@ -23,7 +23,7 @@
     </c:if></h2>
 </center>
 
-<form class="row" method="post">
+<form class="row" action="/customer?action=save" method="post">
     <div class="col-md-6">
         <label class="form-label">Name Customer</label>
         <input type="text" name="name" class="form-control" placeholder="Name Customer">

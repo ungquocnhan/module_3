@@ -23,4 +23,13 @@ public interface IUserRepository {
 
     void addUserTransaction(User user, int[] permission);
 
+    void insertUpdateUseTransaction();
+
+    void insertUpdateWithoutTransaction();
+
+    List<User> displayListUser();
+
+    boolean isEditUser(User user);
+
+    boolean isDeleteUserCall(int id);
 }

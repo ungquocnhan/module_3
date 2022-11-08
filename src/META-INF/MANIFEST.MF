@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: ss14_packing_dependences.practice.package_library_java.Calcu
+ lator
+

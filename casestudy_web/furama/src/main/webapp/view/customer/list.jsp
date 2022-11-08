@@ -24,6 +24,11 @@
             <pre>Search Name:   <input type="text" name="name"><button>Search</button></pre>
         </form>
     </h2>
+    <h2>
+        <c:if test="${message != null}">
+        <span style="color: green">${message}</span>
+        </c:if>
+    </h2>
 </center>
 
 <table class="table">
@@ -60,18 +65,52 @@
                 </button>
             </td>
             <td>
-                <button type="button" class="btn btn-success btn-sm color-palette">
-                    <a href="/customer?action=delete&id=${customer.getId()}">Delete</a>
+                <button onclick="infoDelete('${customer.getId()}','${customer.getName()}')" type="button"
+                        class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Delete
                 </button>
+                    <%--                <button type="button" class="btn btn-success btn-sm color-palette">--%>
+                    <%--                    <a href="/customer?action=delete&id=${customer.getId()}">Delete</a>--%>
+                    <%--                </button>--%>
             </td>
         </tr>
     </c:forEach>
 
     </tbody>
 </table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/customer" method="get">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" hidden name="action" value="delete">
+                    <input type="text" hidden id="deleteId" name="deleteId">
+                    <pre>Are you want to delete customer ?</pre>
+                    <pre style="color: darkred" id="deleteName"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-
+<script>
+    function infoDelete(id, name) {
+        document.getElementById("deleteId").value = id;
+        document.getElementById("deleteName").innerText = name;
+    }
+</script>
 </html>

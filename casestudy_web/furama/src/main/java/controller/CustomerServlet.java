@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @WebServlet(name = "CustomerServlet", value = "/customer")
@@ -29,7 +30,7 @@ public class CustomerServlet extends HttpServlet {
                 editCustomer(request, response);
                 break;
             case "search":
-                searchCustomer(request,response);
+                searchCustomer(request, response);
                 break;
 
         }
@@ -109,7 +110,7 @@ public class CustomerServlet extends HttpServlet {
                 showEditCustomer(request, response);
                 break;
             case "delete":
-                deleteCustomer(request,response);
+                deleteCustomer(request, response);
                 break;
             default:
                 showListCustomer(request, response);
@@ -118,15 +119,14 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("id"));
-        iCustomerService.isDeleteCustomer(id);
-        List<Customer> customerList = iCustomerService.selectAllCustomer();
-        request.setAttribute("customerList", customerList);
-        try {
-            request.getRequestDispatcher("view/customer/list.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
+        int id = Integer.parseInt(request.getParameter("deleteId"));
+        boolean check = iCustomerService.isDeleteCustomer(id);
+        String message = "Delete No Success";
+        if (check) {
+            message = "Delete Success";
         }
+        request.setAttribute("message", message);
+        showListCustomer(request, response);
     }
 
     private void showEditCustomer(HttpServletRequest request, HttpServletResponse response) {

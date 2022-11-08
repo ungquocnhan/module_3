@@ -155,3 +155,5 @@ CREATE TABLE contract_detail (
         REFERENCES attach_facility (id)
         ON DELETE CASCADE
 );
+
+

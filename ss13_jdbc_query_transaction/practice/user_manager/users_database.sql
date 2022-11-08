@@ -49,3 +49,34 @@ insert into permission(id, name) values(2, 'edit');
 insert into permission(id, name) values(3, 'delete');
 
 insert into permission(id, name) values(4, 'view');
+
+DELIMITER $$
+CREATE PROCEDURE get_all_user()
+BEGIN
+SELECT *
+FROM users;
+END $$
+DELIMITER ;
+CALL get_all_user();
+
+DELIMITER $$
+CREATE PROCEDURE get_edit_user(
+IN name_edit VARCHAR(50),
+IN email_edit VARCHAR(50),
+IN country_edit VARCHAR(50),
+IN id_edit INT)
+BEGIN
+UPDATE users SET name = name_edit, email = email_edit, country = country_edit
+where id = id_edit;
+END $$
+DELIMITER ;
+call get_edit_user("Binh", "nhan@codegym.com", "Da Nang", 1);
+
+DELIMITER $$
+CREATE PROCEDURE get_delete_user_by_id(IN user_id INT)
+BEGIN
+DELETE FROM users
+WHERE users.id = user_id;
+END $$
+DELIMITER ;
+CALL get_delete_user_by_id(16);

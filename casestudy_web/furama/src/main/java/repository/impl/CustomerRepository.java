@@ -13,7 +13,8 @@ public class CustomerRepository implements ICustomerRepository {
     private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customer WHERE id = ?";
     private static final String UPDATE_CUSTOMER_SQL = "UPDATE CUSTOMER SET name = ? ,day_of_birth = ?, gender = ?, id_card = ?, phone_number = ?, email = ?, address = ?, customer_type_id = ? WHERE id = ?;";
     private static final String DELETE_CUSTOMER_SQL = "DELETE FROM customer WHERE id = ?;";
-    private static final String SEARCH_CUSTOMER_BY_NAME = "SELECT * FROM customer WHERE name LIKE ?;";
+    private static final String SEARCH_CUSTOMER_BY_NAME = "SELECT * FROM customer WHERE name LIKE ? OR address LIKE ?;";
+    
 
 
     @Override
@@ -133,6 +134,7 @@ public class CustomerRepository implements ICustomerRepository {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_CUSTOMER_BY_NAME);
             preparedStatement.setString(1, "%" + name + "%");
+            preparedStatement.setString(2, "%" + name + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){

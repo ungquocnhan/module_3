@@ -15,9 +15,20 @@
 
 </head>
 <body>
+<c:import url="../../html/header.jsp"></c:import>
+
+<nav class="navbar bg-light">
+    <div class="container-fluid">
+        <a href="/customer" class="btn bg-secondary btn-sm">Back List Customer</a>
+        <h1>Customer Management</h1>
+        <form class="d-flex" action="/customer?action=search" method="post">
+            <input class="form-control-sm me-2" type="text" name="search" placeholder="Search">
+            <button class="btn btn-primary btn-sm" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
 <center>
-    <h1>Customer Management</h1>
-    <h2><a href="/customer">Back List</a></h2>
     <h2>
         <c:if test="${message != null}">
             <span style="color: darkred">${message}</span>
@@ -28,11 +39,11 @@
 <form class="row" method="post">
     <caption>
         <h2>
-            Edit User
+            Edit Customer
         </h2>
     </caption>
     <c:if test="${customer != null}">
-        <input type="hidden" name="id" value="<c:out value='${customer.getId()}' />"/>
+        <input type="hidden" name="id" value="<c:out value='${customer.getId()}'/>"/>
     </c:if>
     <div class="col-md-12">
         <label class="form-label">Name Customer</label>
@@ -45,12 +56,9 @@
     <div class="col-md-3">
         <label class="form-label">Customer Type</label>
         <select name="customerTypeId" id="" class="form-select">
-            <option>Please choose</option>
-            <option value="1">Diamond</option>
-            <option value="2">Platinium</option>
-            <option value="3">Gold</option>
-            <option value="4">Silver</option>
-            <option value="5">Member</option>
+            <c:forEach var="customerType" items="${customerTypeList}">
+                <option value="${customerType.id}">${customerType.name}</option>
+            </c:forEach>
         </select>
     </div>
     <div class="col-md-3">
@@ -83,9 +91,11 @@
     </div>
     <div class="col-md-3">
         <br>
-        <button class="btn btn-success form-control">Save</button>
+        <button class="btn btn-success form-control">Edit</button>
     </div>
 </form>
+
+<c:import url="../../html/footer.jsp"></c:import>
 </body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 

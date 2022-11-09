@@ -1,8 +1,11 @@
 package controller;
 
 import model.Customer;
+import model.CustomerType;
 import service.ICustomerService;
+import service.ICustomerTypeService;
 import service.impl.CustomerService;
+import service.impl.CustomerTypeService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +19,12 @@ import java.util.List;
 @WebServlet(name = "CustomerServlet", value = "/customer")
 public class CustomerServlet extends HttpServlet {
     private ICustomerService iCustomerService = new CustomerService();
+    private ICustomerTypeService customerTypeService = new CustomerTypeService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -37,9 +44,13 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void searchCustomer(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("name");
+        String name = request.getParameter("search");
         List<Customer> customerList = iCustomerService.searchByName(name);
         request.setAttribute("customerList", customerList);
+        request.setAttribute("search", name);
+
+        List<CustomerType> customerTypeList = customerTypeService.selectAllCustomerType();
+        request.setAttribute("customerTypeList", customerTypeList);
         try {
             request.getRequestDispatcher("view/customer/list.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
@@ -98,6 +109,9 @@ public class CustomerServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -133,6 +147,8 @@ public class CustomerServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         Customer customerExists = iCustomerService.selectCustomer(id);
         request.setAttribute("customer", customerExists);
+        List<CustomerType> customerTypeList = customerTypeService.selectAllCustomerType();
+        request.setAttribute("customerTypeList", customerTypeList);
         try {
             request.getRequestDispatcher("view/customer/edit.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
@@ -151,6 +167,8 @@ public class CustomerServlet extends HttpServlet {
     private void showListCustomer(HttpServletRequest request, HttpServletResponse response) {
         List<Customer> customerList = this.iCustomerService.selectAllCustomer();
         request.setAttribute("customerList", customerList);
+        List<CustomerType> customerTypeList = customerTypeService.selectAllCustomerType();
+        request.setAttribute("customerTypeList", customerTypeList);
         try {
             request.getRequestDispatcher("view/customer/list.jsp").forward(request, response);
         } catch (ServletException | IOException e) {

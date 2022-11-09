@@ -1,8 +1,10 @@
+package config;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(filterName = "FilterConfig")
+@WebFilter(filterName = "Config.FilterConfig")
 public class FilterConfig implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {

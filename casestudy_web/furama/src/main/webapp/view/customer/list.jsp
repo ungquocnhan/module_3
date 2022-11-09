@@ -16,22 +16,26 @@
 
 </head>
 <body>
-<center>
-    <h1>Customer Management</h1>
-    <h2><a href="/customer?action=create">Add New Customer</a></h2>
-    <h2>
-        <form action="/customer?action=search" method="post">
-            <pre>Search Name:   <input type="text" name="name"><button>Search</button></pre>
+<c:import url="../../html/header.jsp"></c:import>
+<nav class="navbar bg-light">
+    <div class="container-fluid">
+        <a href="/customer?action=create" class="btn bg-secondary btn-sm">Add New Customer</a>
+        <h1>Customer Management</h1>
+        <form class="d-flex" action="/customer?action=search" method="post">
+            <input class="form-control-sm me-2" type="text" name="search" placeholder="Search">
+            <button class="btn btn-primary btn-sm" type="submit">Search</button>
         </form>
-    </h2>
+    </div>
+</nav>
+<center>
     <h2>
         <c:if test="${message != null}">
-        <span style="color: green">${message}</span>
+            <span style="color: green">${message}</span>
         </c:if>
     </h2>
 </center>
 
-<table class="table">
+<table class="table" id="tableCustomer">
     <thead>
     <tr>
         <th scope="col">STT</th>
@@ -42,23 +46,29 @@
         <th scope="col">Phone Number</th>
         <th scope="col">Email</th>
         <th scope="col">Address</th>
-        <th scope="col">Customer Type Id</th>
+        <th scope="col">Customer Type</th>
         <th scope="row">Edit</th>
         <th scope="row">Delete</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="customer" items="${customerList}">
+    <c:forEach var="customer" items="${customerList}" varStatus="status">
         <tr>
-            <th scope="row">${customer.getId()}</th>
+
+            <th scope="row">${status.count}</th>
             <td>${customer.getName()}</td>
             <td>${customer.getBirthday()}</td>
-            <td>${customer.isGender() == true ? "Nam" : "Nữ"}</td>
+            <td>${customer.isGender() == true ? "Male" : "Female"}</td>
             <td>${customer.getIdCard()}</td>
             <td>${customer.getPhoneNumber()}</td>
             <td>${customer.getEmail()}</td>
             <td>${customer.getAddress()}</td>
-            <td>${customer.getCustomerTypeId()}</td>
+            <c:forEach var="customerType" items="${customerTypeList}">
+                <c:if test="${customerType.id == customer.getCustomerTypeId()}">
+                    <td>${customerType.name}</td>
+                </c:if>
+            </c:forEach>
+
             <td>
                 <button type="button" class="btn btn-success btn-sm color-palette">
                     <a href="/customer?action=edit&id=${customer.getId()}">Edit</a>
@@ -69,9 +79,6 @@
                         class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Delete
                 </button>
-                    <%--                <button type="button" class="btn btn-success btn-sm color-palette">--%>
-                    <%--                    <a href="/customer?action=delete&id=${customer.getId()}">Delete</a>--%>
-                    <%--                </button>--%>
             </td>
         </tr>
     </c:forEach>
@@ -79,7 +86,7 @@
     </tbody>
 </table>
 
-
+<c:import url="../../html/footer.jsp"></c:import>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -112,5 +119,17 @@
         document.getElementById("deleteId").value = id;
         document.getElementById("deleteName").innerText = name;
     }
+</script>
+<script src="jquery/jquery-3.5.1.min.js"></script>
+<script src="datatables/js/jquery.dataTables.js"></script>
+<script src="datatables/js/dataTables.bootstrap5.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tableCustomer').dataTable({
+            "dom": 'lrtip',
+            "lengthChange": false,
+            "pageLength": 5
+        });
+    });
 </script>
 </html>

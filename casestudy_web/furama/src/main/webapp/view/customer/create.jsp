@@ -15,9 +15,18 @@
 
 </head>
 <body>
+<c:import url="../../html/header.jsp"></c:import>
+<nav class="navbar bg-light">
+    <div class="container-fluid">
+        <a href="/customer" class="btn bg-secondary btn-sm">Back List Customer</a>
+        <h1>Customer Management</h1>
+        <form class="d-flex" action="/customer?action=search" method="post">
+            <input class="form-control-sm me-2" type="text" name="search" placeholder="Search">
+            <button class="btn btn-primary btn-sm" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
 <center>
-    <h1>Customer Management</h1>
-    <h2><a href="/customer">Back List Customer</a></h2>
     <h2><c:if test="${message != null}">
         <span style="color: darkred">${message}</span>
     </c:if></h2>
@@ -63,11 +72,15 @@
         <label class="form-label">Gender</label>
         <br>
         <div class="form-check form-check-inline col-md-3">
-            <input type="radio" class="form-check-input"  value="true" name="gender" checked>
+            <label>
+                <input type="radio" class="form-check-input"  value="true" name="gender" checked>
+            </label>
             <label class="form-check-label">Male</label>
         </div>
         <div class="form-check form-check-inline col-md-3">
-            <input type="radio" class="form-check-input" value="false" name="gender">
+            <label>
+                <input type="radio" class="form-check-input" value="false" name="gender">
+            </label>
             <label class="form-check-label">Female</label>
         </div>
     </div>
@@ -76,6 +89,9 @@
         <button class="btn btn-primary form-control">Save</button>
     </div>
 </form>
+
+<c:import url="../../html/footer.jsp"></c:import>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 

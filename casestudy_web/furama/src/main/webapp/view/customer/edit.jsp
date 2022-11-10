@@ -11,7 +11,8 @@
 <html>
 <head>
     <title>Customer Management Edit</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
 </head>
 <body>
@@ -47,7 +48,8 @@
     </c:if>
     <div class="col-md-12">
         <label class="form-label">Name Customer</label>
-        <input type="text" class="form-control" placeholder="Name" name="name" value="<c:out value='${customer.getName()}'/>">
+        <input type="text" class="form-control" placeholder="Name" name="name"
+               value="<c:out value='${customer.getName()}'/>">
     </div>
     <div class="col-md-3">
         <label class="form-label">Day of Birth</label>
@@ -57,35 +59,44 @@
         <label class="form-label">Customer Type</label>
         <select name="customerTypeId" id="" class="form-select">
             <c:forEach var="customerType" items="${customerTypeList}">
-                <option value="${customerType.id}">${customerType.name}</option>
+                <c:if test="${customerType.id == customer.getCustomerTypeId()}">
+                    <option selected value="${customerType.id}">${customerType.name}</option>
+                </c:if>
+                <c:if test="${customerType.id != customer.getCustomerTypeId()}">
+                    <option value="${customerType.id}">${customerType.name}</option>
+                </c:if>
             </c:forEach>
         </select>
     </div>
     <div class="col-md-3">
         <label class="form-label">ID Card</label>
-        <input type="text" class="form-control" placeholder="ID Card" name="idCard" value="<c:out value='${customer.idCard}'/>">
+        <input type="text" class="form-control" placeholder="ID Card" name="idCard"
+               value="<c:out value='${customer.idCard}'/>">
     </div>
     <div class="col-md-3">
         <label class="form-label">Phone Number</label>
-        <input type="text" class="form-control" placeholder="Phone Number" name="phoneNumber" value="<c:out value='${customer.phoneNumber}'/>">
+        <input type="text" class="form-control" placeholder="Phone Number" name="phoneNumber"
+               value="<c:out value='${customer.phoneNumber}'/>">
     </div>
     <div class="col-md-3">
         <label class="form-label">Address</label>
-        <input type="text" class="form-control" placeholder="Address" name="address" value="<c:out value='${customer.address}'/>">
+        <input type="text" class="form-control" placeholder="Address" name="address"
+               value="<c:out value='${customer.address}'/>">
     </div>
     <div class="col-md-3">
         <label class="form-label">Email</label>
-        <input type="email" class="form-control" placeholder="Email" name="email" value="<c:out value='${customer.email}'/>">
+        <input type="email" class="form-control" placeholder="Email" name="email"
+               value="<c:out value='${customer.email}'/>">
     </div>
     <div class="col-md-6">
         <label class="form-label">Gender</label>
         <br>
         <div class="form-check form-check-inline col-md-3">
-            <input type="radio" class="form-check-input" value="true" name="gender" checked>
+            <input type="radio" class="form-check-input" value="true" ${customer.isGender() == true ? "checked" : ""} name="gender">
             <label class="form-check-label">Male</label>
         </div>
         <div class="form-check form-check-inline col-md-3">
-            <input type="radio" class="form-check-input" value="false" name="gender">
+            <input type="radio" class="form-check-input" value="false" ${customer.isGender() == false ? "checked" : ""} name="gender">
             <label class="form-check-label">Female</label>
         </div>
     </div>
@@ -97,6 +108,7 @@
 
 <c:import url="../../html/footer.jsp"></c:import>
 </body>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
 </html>

@@ -50,7 +50,8 @@ CREATE TABLE employee (
     position_id INT,
     education_degree_id INT,
     division_id INT,
-    username VARCHAR(255) UNIQUE,
+    flag INT,
+    username VARCHAR(45),
     FOREIGN KEY (position_id)
         REFERENCES position (id)
         ON DELETE CASCADE,
@@ -157,3 +158,44 @@ CREATE TABLE contract_detail (
 );
 
 
+DELIMITER $$
+CREATE PROCEDURE get_all_facility()
+BEGIN
+SELECT f.name, f.area, f.cost, f.max_people, f.standard_room, f.description_other_convenience, f.pool_area, f.number_of_floors, f.facility_free, ft.name as facilitytype, rt.name as renttype
+FROM facility f
+JOIN facility_type ft on f.facility_type_id = ft.id
+JOIN rent_type rt ON f.rent_type_id = rt.id;
+END $$
+DELIMITER ;
+CALL get_all_facility();
+
+DELIMITER $$
+CREATE PROCEDURE get_edit_facility(
+	name_edit VARCHAR(45),
+    area_edit INT,
+    cost_edit DOUBLE,
+    max_people_edit INT,
+    standard_room_edit VARCHAR(45),
+    description_other_convenience_edit VARCHAR(45),
+    pool_area_edit DOUBLE,
+    number_of_floors_edit INT,
+    facility_free_edit TEXT,
+    rent_type_id_edit INT,
+    facility_type_id_edit INT,
+    id_edit INT)
+BEGIN
+UPDATE facility SET 
+ name = name_edit,
+ area = area_edit,
+ cost = cost_edit,
+ max_people = max_people_edit,
+ standard_room = standard_room_edit,
+ description_other_convenience = description_other_convenience_edit,
+ pool_area = pool_area_edit,
+ number_of_floors = number_of_floors_edit,
+ facility_free = facility_free_edit,
+ rent_type_id = rent_type_id_edit,
+ facility_type_id = facility_type_id_edit
+where id = id_edit;
+END $$
+DELIMITER ;

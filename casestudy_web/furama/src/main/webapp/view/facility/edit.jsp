@@ -87,7 +87,12 @@
         <label class="form-label">Rent Type</label>
         <select name="rentTypeId" id="rentTypeId" class="form-select">
             <c:forEach var="rentType" items="${rentTypeList}">
-                <option value="${rentType.id}">${rentType.name}</option>
+                <c:if test="${rentType.id == facility.getRentTypeId()}">
+                    <option selected value="${rentType.id}">${rentType.name}</option>
+                </c:if>
+                <c:if test="${rentType.id != facility.getRentTypeId()}">
+                    <option value="${rentType.id}">${rentType.name}</option>
+                </c:if>
             </c:forEach>
         </select>
     </div>
@@ -95,7 +100,12 @@
         <label class="form-label">Rent Type</label>
         <select name="facilityTypeId" id="facilityTypeId" class="form-select">
             <c:forEach var="facilityType" items="${facilityTypeList}">
-                <option value="${facilityType.id}">${facilityType.name}</option>
+                <c:if test="${facilityType.id == facility.getFacilityTypeId()}">
+                    <option selected value="${facilityType.id}">${facilityType.name}</option>
+                </c:if>
+                <c:if test="${facilityType.id != facility.getFacilityTypeId()}">
+                    <option value="${facilityType.id}">${facilityType.name}</option>
+                </c:if>
             </c:forEach>
         </select>
     </div>

@@ -83,11 +83,7 @@ public class CustomerServlet extends HttpServlet {
             message = "Edit Success";
         }
         request.setAttribute("message", message);
-        try {
-            request.getRequestDispatcher("view/customer/edit.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
+        showListCustomer(request, response);
 
     }
 
@@ -107,11 +103,7 @@ public class CustomerServlet extends HttpServlet {
             message = "Add Customer Success";
         }
         request.setAttribute("message", message);
-        try {
-            request.getRequestDispatcher("view/customer/create.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
+        showListCustomer(request,response);
 
     }
 

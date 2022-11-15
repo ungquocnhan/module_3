@@ -84,11 +84,7 @@ public class FacilityServlet extends HttpServlet {
             message = "Edit Success";
         }
         request.setAttribute("message", message);
-        try {
-            request.getRequestDispatcher("view/facility/edit.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
+        showListFacility(request, response);
     }
 
     private void addFacility(HttpServletRequest request, HttpServletResponse response) {
@@ -111,11 +107,7 @@ public class FacilityServlet extends HttpServlet {
             message = "Add Customer Success";
         }
         request.setAttribute("message", message);
-        try {
-            request.getRequestDispatcher("view/facility/create.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
+        showListFacility(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

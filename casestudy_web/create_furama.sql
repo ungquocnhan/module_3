@@ -51,19 +51,19 @@ CREATE TABLE employee (
     education_degree_id INT,
     division_id INT,
     flag INT,
-    username VARCHAR(45),
+    -- username VARCHAR(45),
     FOREIGN KEY (position_id)
-        REFERENCES position (id)
-        ON DELETE CASCADE,
+        REFERENCES position (id),
+        -- ON DELETE CASCADE,
     FOREIGN KEY (education_degree_id)
-        REFERENCES education_degree (id)
-        ON DELETE CASCADE,
+        REFERENCES education_degree (id),
+        -- ON DELETE CASCADE,
     FOREIGN KEY (division_id)
         REFERENCES division (id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (username)
-        REFERENCES user (username)
-        ON DELETE CASCADE
+        -- ON DELETE CASCADE,
+    -- FOREIGN KEY (username)
+--         REFERENCES user (username)
+--         ON DELETE CASCADE
 );
 
 CREATE TABLE customer_type (
@@ -199,3 +199,40 @@ UPDATE facility SET
 where id = id_edit;
 END $$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE get_customer_use_facility()
+BEGIN
+SELECT c.id, c.name, c.id_card, c.phone_number, c.address , ct.start_day, ct.end_day, f.name as facility_name, af.name as attach_facility_name
+FROM customer c
+JOIN contract ct on c.id = ct.customer_id
+JOIN facility f on f.id = ct.facility_id
+join contract_detail cd on ct.id = cd.contract_id
+JOIN attach_facility af on af.id = cd.attach_facility_id
+GROUP BY c.name;
+END $$
+DELIMITER ;
+
+CALL get_customer_use_facility();
+
+SELECT c.name, c.id_card, c.phone_number, c.address , ct.start_day, ct.end_day, f.name as facility_name, af.name as attach_facility_name
+FROM customer c
+JOIN contract ct on c.id = ct.customer_id
+JOIN facility f on f.id = ct.facility_id
+join contract_detail cd on ct.id = cd.contract_id
+JOIN attach_facility af on af.id = cd.attach_facility_id
+GROUP BY c.name;
+
+
+SELECT c.name, c.id_card, c.phone_number, c.address , ct.start_day, ct.end_day, f.name as facility_name, af.name as attach_facility_name
+FROM customer c
+JOIN contract ct on c.id = ct.customer_id
+JOIN facility f on f.id = ct.facility_id
+join contract_detail cd on ct.id = cd.contract_id
+JOIN attach_facility af on af.id = cd.attach_facility_id;
+
+SELECT e.*, p.name as name_position, ed.name as name_education_degree, d.name as name_division FROM employee e
+JOIN position p on p.id = e.position_id
+JOIN education_degree ed on ed.id = e.education_degree_id
+JOIN division d on d.id = e.division_id
+WHERE flag = 1;

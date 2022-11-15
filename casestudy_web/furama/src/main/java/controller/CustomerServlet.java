@@ -44,10 +44,17 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void searchCustomer(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("search");
-        List<Customer> customerList = iCustomerService.searchByName(name);
+//        String name = request.getParameter("search");
+        String name = request.getParameter("name");
+        String address = request.getParameter("address");
+        String numberPhone = request.getParameter("numberPhone");
+        List<Customer> customerList = iCustomerService.searchByName(name, address, numberPhone);
         request.setAttribute("customerList", customerList);
-        request.setAttribute("search", name);
+//        request.setAttribute("search", name);
+        request.setAttribute("name", name);
+        request.setAttribute("address", address);
+        request.setAttribute("numberPhone", numberPhone);
+
 
         List<CustomerType> customerTypeList = customerTypeService.selectAllCustomerType();
         request.setAttribute("customerTypeList", customerTypeList);

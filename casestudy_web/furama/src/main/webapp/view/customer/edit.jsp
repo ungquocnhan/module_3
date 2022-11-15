@@ -48,12 +48,14 @@
     </c:if>
     <div class="col-md-12">
         <label class="form-label">Name Customer</label>
-        <input type="text" class="form-control" placeholder="Name" name="name"
+        <input type="text" class="form-control" placeholder="Name" name="name" pattern="([A-Z][a-z]{1,5}(\s)*)*"
+               title="Incorrect Format"
                value="<c:out value='${customer.getName()}'/>">
     </div>
     <div class="col-md-3">
         <label class="form-label">Day of Birth</label>
-        <input type="date" class="form-control" name="birthday" value="<c:out value='${customer.getBirthday()}'/>">
+        <input type="date" class="form-control" name="birthday" value="<c:out value='${customer.getBirthday()}'/>"
+               pattern="^[0-3]?[0-9].[0-3]?[0-9].([0-9]{1,2})?[0-9]{2}$" title="Incorrect Format">
     </div>
     <div class="col-md-3">
         <label class="form-label">Customer Type</label>
@@ -71,12 +73,13 @@
     <div class="col-md-3">
         <label class="form-label">ID Card</label>
         <input type="text" class="form-control" placeholder="ID Card" name="idCard"
-               value="<c:out value='${customer.idCard}'/>">
+               value="<c:out value='${customer.idCard}'/>" pattern="([0-9]{12})|([0-9]{9})" title="Incorrect Format">
     </div>
     <div class="col-md-3">
         <label class="form-label">Phone Number</label>
         <input type="text" class="form-control" placeholder="Phone Number" name="phoneNumber"
-               value="<c:out value='${customer.phoneNumber}'/>">
+               value="<c:out value='${customer.phoneNumber}'/>"
+               pattern="(090|091|[(][84]{2}[)][+][90]{2}|[(][84]{2}[)][+][91]{2})[0-9]{7}" title="Incorrect Format">
     </div>
     <div class="col-md-3">
         <label class="form-label">Address</label>
@@ -86,17 +89,20 @@
     <div class="col-md-3">
         <label class="form-label">Email</label>
         <input type="email" class="form-control" placeholder="Email" name="email"
+               pattern="^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*$" title="Incorrect Format"
                value="<c:out value='${customer.email}'/>">
     </div>
     <div class="col-md-6">
         <label class="form-label">Gender</label>
         <br>
         <div class="form-check form-check-inline col-md-3">
-            <input type="radio" class="form-check-input" value="true" ${customer.isGender() == true ? "checked" : ""} name="gender">
+            <input type="radio" class="form-check-input" value="true" ${customer.isGender() == true ? "checked" : ""}
+                   name="gender">
             <label class="form-check-label">Male</label>
         </div>
         <div class="form-check form-check-inline col-md-3">
-            <input type="radio" class="form-check-input" value="false" ${customer.isGender() == false ? "checked" : ""} name="gender">
+            <input type="radio" class="form-check-input" value="false" ${customer.isGender() == false ? "checked" : ""}
+                   name="gender">
             <label class="form-check-label">Female</label>
         </div>
     </div>

@@ -12,6 +12,15 @@ public class Position {
         this.name = name;
     }
 
+    public Position(String name) {
+        this.name = name;
+
+    }
+
+    public Position(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

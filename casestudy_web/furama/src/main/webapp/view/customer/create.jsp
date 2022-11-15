@@ -21,7 +21,7 @@
         <a href="/customer" class="btn bg-secondary btn-sm">Back List Customer</a>
         <h1>Customer Management</h1>
         <form class="d-flex" action="/customer?action=search" method="post">
-            <input class="form-control-sm me-2" type="text" name="search" placeholder="Search">
+            <input class="form-control-sm me-2" type="text" name="search" placeholder="Search" value="${search}">
             <button class="btn btn-primary btn-sm" type="submit">Search</button>
         </form>
     </div>
@@ -35,11 +35,11 @@
 <form class="row" action="/customer?action=save" method="post">
     <div class="col-md-6">
         <label class="form-label">Name Customer</label>
-        <input type="text" name="name" class="form-control" placeholder="Name Customer">
+        <input type="text" name="name" required pattern="([A-Z][a-z]{1,5}(\s)*)*" title="Incorrect Format" class="form-control" placeholder="Name Customer">
     </div>
     <div class="col-md-6">
         <label class="form-label">Day of Birth</label>
-        <input type="date" name="birthday" class="form-control">
+        <input type="date" name="birthday" class="form-control" required pattern="^[0-3]?[0-9].[0-3]?[0-9].([0-9]{1,2})?[0-9]{2}$" title="Incorrect Format">
     </div>
     <div class="col-md-6">
         <label class="form-label">Customer Type</label>
@@ -54,11 +54,11 @@
     </div>
     <div class="col-md-6">
         <label class="form-label">ID Card</label>
-        <input type="text" name="idCard" class="form-control" placeholder="ID Card">
+        <input type="text" name="idCard" class="form-control" placeholder="ID Card" required pattern="([0-9]{12})|([0-9]{9})" title="Incorrect Format">
     </div>
     <div class="col-md-6">
         <label class="form-label">Phone Number</label>
-        <input type="text" name="phoneNumber" class="form-control" placeholder="Phone Number">
+        <input type="text" name="phoneNumber" class="form-control" placeholder="Phone Number" required pattern="(090|091|[(][84]{2}[)][+][90]{2}|[(][84]{2}[)][+][91]{2})[0-9]{7}" title="Incorrect Format">
     </div>
     <div class="col-md-6">
         <label class="form-label">Address</label>
@@ -66,7 +66,7 @@
     </div>
     <div class="col-md-6">
         <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-control" placeholder="Email">
+        <input type="email" name="email" class="form-control" placeholder="Email" required pattern="^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*$" title="Incorrect Format">
     </div>
     <div class="col-md-6">
         <label class="form-label">Gender</label>

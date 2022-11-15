@@ -16,6 +16,7 @@
 </head>
 <body>
 <c:import url="../../html/header.jsp"></c:import>
+
 <nav class="navbar bg-light">
     <div class="container-fluid">
         <a href="/facility?action=create" class="btn bg-secondary btn-sm">Add New Facility</a>
@@ -50,8 +51,8 @@
         <th scope="col">Facility free</th>
         <th scope="col">Rent type</th>
         <th scope="col">Facility type</th>
-        <th scope="row">Edit</th>
-        <th scope="row">Delete</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
     </tr>
     </thead>
     <tbody>
@@ -140,4 +141,6 @@
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
 </html>

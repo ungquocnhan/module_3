@@ -15,6 +15,6 @@ public interface ICustomerService {
 
     boolean isDeleteCustomer(int id);
 
-    List<Customer> searchByName(String name);
+    List<Customer> searchByName(String name, String address, String numberPhone);
 
 }

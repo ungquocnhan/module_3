@@ -12,6 +12,14 @@ public class Division {
         this.name = name;
     }
 
+    public Division(String name_division) {
+        this.name = name_division;
+    }
+
+    public Division(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

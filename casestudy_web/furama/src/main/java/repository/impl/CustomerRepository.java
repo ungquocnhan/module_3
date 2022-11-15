@@ -13,7 +13,7 @@ public class CustomerRepository implements ICustomerRepository {
     private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customer WHERE id = ?";
     private static final String UPDATE_CUSTOMER_SQL = "UPDATE CUSTOMER SET name = ? ,day_of_birth = ?, gender = ?, id_card = ?, phone_number = ?, email = ?, address = ?, customer_type_id = ? WHERE id = ?;";
     private static final String DELETE_CUSTOMER_SQL = "DELETE FROM customer WHERE id = ?;";
-    private static final String SEARCH_CUSTOMER_BY_NAME = "SELECT * FROM customer WHERE name LIKE ? OR address LIKE ?;";
+    private static final String SEARCH_CUSTOMER_BY_NAME = "SELECT * FROM customer WHERE name LIKE ? AND address LIKE ? AND phone_number LIKE ?;";
     
 
 
@@ -127,14 +127,15 @@ public class CustomerRepository implements ICustomerRepository {
     }
 
     @Override
-    public List<Customer> searchByName(String name) {
+    public List<Customer> searchByName(String name,String address,String numberPhone) {
         List<Customer> customerList = new ArrayList<>();
 
         Connection connection = BaseRepository.getConnectDB();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_CUSTOMER_BY_NAME);
             preparedStatement.setString(1, "%" + name + "%");
-            preparedStatement.setString(2, "%" + name + "%");
+            preparedStatement.setString(2, "%" + address + "%");
+            preparedStatement.setString(3, "%" + numberPhone + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
@@ -145,10 +146,10 @@ public class CustomerRepository implements ICustomerRepository {
                 String idCard = resultSet.getString("id_card");
                 String phoneNumber = resultSet.getString("phone_number");
                 String email = resultSet.getString("email");
-                String address = resultSet.getString("address");
+                String addressExists = resultSet.getString("address");
                 int customerTypeId = resultSet.getInt("customer_type_id");
 
-                customerList.add(new Customer(id, nameExists, birthday, gender, idCard, phoneNumber, email, address, customerTypeId));
+                customerList.add(new Customer(id, nameExists, birthday, gender, idCard, phoneNumber, email, addressExists, customerTypeId));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

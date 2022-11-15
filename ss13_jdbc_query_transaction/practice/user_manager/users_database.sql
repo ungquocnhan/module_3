@@ -80,3 +80,5 @@ WHERE users.id = user_id;
 END $$
 DELIMITER ;
 CALL get_delete_user_by_id(16);
+
+

@@ -12,6 +12,15 @@ public class EducationDegree {
         this.name = name;
     }
 
+    public EducationDegree(String name) {
+        this.name = name;
+    }
+
+    public EducationDegree(int id) {
+        this.id = id;
+
+    }
+
     public int getId() {
         return id;
     }

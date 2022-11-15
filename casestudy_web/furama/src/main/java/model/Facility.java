@@ -46,6 +46,10 @@ public class Facility {
         this.facilityTypeId = facilityTypeId;
     }
 
+    public Facility(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

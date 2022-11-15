@@ -1,29 +1,51 @@
 package dto;
 
+import model.*;
+
 public class CustomerUseFacilityDTO {
+    private int id;
     private String name;
     private String idCard;
     private String phoneNumber;
     private String address;
-    private String startDate;
-    private String endDate;
-    private double deposit;
-    private String nameFacilityAttach;
-    private int quantity;
+    private Facility facility;
+    private Contract contract;
+    private ContractDetail contractDetail;
+    private AttachDetail attachDetail;
 
-    public CustomerUseFacilityDTO() {
-    }
-
-    public CustomerUseFacilityDTO(String name, String idCard, String phoneNumber, String address, String startDate, String endDate, double deposit, String nameFacilityAttach, int quantity) {
+    public CustomerUseFacilityDTO(int id, String name, String idCard, String phoneNumber, String address, Facility facility, Contract contract, ContractDetail contractDetail, AttachDetail attachDetail) {
+        this.id = id;
         this.name = name;
         this.idCard = idCard;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.deposit = deposit;
-        this.nameFacilityAttach = nameFacilityAttach;
-        this.quantity = quantity;
+        this.facility = facility;
+        this.contract = contract;
+        this.contractDetail = contractDetail;
+        this.attachDetail = attachDetail;
+    }
+
+    public CustomerUseFacilityDTO() {
+    }
+
+    public CustomerUseFacilityDTO(int id, String name, String idCard, String phoneNumber, String address,  Contract contract, Facility facility) {
+        this.id = id;
+        this.name = name;
+        this.idCard = idCard;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.contract = contract;
+        this.facility = facility;
+    }
+
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -58,44 +80,36 @@ public class CustomerUseFacilityDTO {
         this.address = address;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public Facility getFacility() {
+        return facility;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public Contract getContract() {
+        return contract;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
-    public double getDeposit() {
-        return deposit;
+    public ContractDetail getContractDetail() {
+        return contractDetail;
     }
 
-    public void setDeposit(double deposit) {
-        this.deposit = deposit;
+    public void setContractDetail(ContractDetail contractDetail) {
+        this.contractDetail = contractDetail;
     }
 
-    public String getNameFacilityAttach() {
-        return nameFacilityAttach;
+    public AttachDetail getAttachDetail() {
+        return attachDetail;
     }
 
-    public void setNameFacilityAttach(String nameFacilityAttach) {
-        this.nameFacilityAttach = nameFacilityAttach;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setAttachDetail(AttachDetail attachDetail) {
+        this.attachDetail = attachDetail;
     }
 }
 

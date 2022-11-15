@@ -97,8 +97,8 @@
         </select>
     </div>
     <div class="col-md-6">
-        <label class="form-label">Rent Type</label>
-        <select name="facilityTypeId" id="facilityTypeId" class="form-select">
+        <label class="form-label">Facility type</label>
+        <select name="facilityTypeId" id="facilityTypeId" class="form-select" disabled>
             <c:forEach var="facilityType" items="${facilityTypeList}">
                 <c:if test="${facilityType.id == facility.getFacilityTypeId()}">
                     <option selected value="${facilityType.id}">${facilityType.name}</option>
@@ -117,4 +117,6 @@
 <c:import url="../../html/footer.jsp"></c:import>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
 </html>

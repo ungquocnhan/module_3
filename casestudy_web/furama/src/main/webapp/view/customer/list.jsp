@@ -22,7 +22,10 @@
         <a href="/customer?action=create" class="btn bg-secondary btn-sm">Add New Customer</a>
         <h1>Customer Management</h1>
         <form class="d-flex" action="/customer?action=search" method="post">
-            <input class="form-control-sm me-2" type="text" name="search" placeholder="Search">
+<%--            <input class="form-control-sm me-2" type="text" name="search" placeholder="Search">--%>
+            <input class="form-control-sm me-2" type="text" name="name" placeholder="Name" value="${name}">
+            <input class="form-control-sm me-2" type="text" name="address" placeholder="Address" value="${address}">
+            <input class="form-control-sm me-2" type="text" name="numberPhone" placeholder="NumberPhone" value="${numberPhone}">
             <button class="btn btn-primary btn-sm" type="submit">Search</button>
         </form>
     </div>

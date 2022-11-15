@@ -149,7 +149,7 @@
                     <div class="col-md-12">
                         <label class="form-label">Salary</label>
                         <input type="text" class="form-control" placeholder="Salary" name="salary" id="salary"
-                               required pattern="[0-9]{6,7}" title="Salary must positive number">
+                               required pattern="[0-9]{7,8}" title="Salary must positive number">
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Phone Number</label>
@@ -245,7 +245,7 @@
                     <div class="col-md-12">
                         <label class="form-label">Name Employee</label>
                         <input type="text" class="form-control" placeholder="Name Employee" name="nameEdit"
-                               id="nameEdit">
+                               id="nameEdit" pattern="([A-Z][a-z]{1,5}(\s)*)*" title="Incorrect Format">
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Birthday</label>
@@ -253,20 +253,26 @@
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">ID Card</label>
-                        <input type="text" class="form-control" placeholder="ID Card" name="idCardEdit" id="idCardEdit">
+                        <input type="text" class="form-control" placeholder="ID Card" name="idCardEdit" id="idCardEdit"
+                               pattern="([0-9]{12})|([0-9]{9})" title="Incorrect Format">
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Salary</label>
-                        <input type="text" class="form-control" placeholder="Salary" name="salaryEdit" id="salaryEdit">
+                        <input type="text" class="form-control" placeholder="Salary" name="salaryEdit" id="salaryEdit"
+                               pattern="[0-9]{7,8}" title="Salary must positive number">
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Phone Number</label>
                         <input type="text" class="form-control" placeholder="Phone Number" name="phoneNumberEdit"
-                               id="phoneNumberEdit">
+                               id="phoneNumberEdit"
+                               pattern="(090|091|[(][84]{2}[)][+][90]{2}|[(][84]{2}[)][+][91]{2})[0-9]{7}"
+                               title="Incorrect Format">
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" placeholder="Email" name="emailEdit" id="emailEdit">
+                        <input type="email" class="form-control" placeholder="Email" name="emailEdit" id="emailEdit"
+                               pattern="^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*$"
+                               title="Incorrect Format">
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Address</label>
@@ -296,7 +302,6 @@
                     <div class="col-md-12">
                         <label class="form-label">Position</label>
                         <select name="positionEdit" id="positionEdit" class="form-select">
-<%--                            <option>Please choose</option>--%>
                             <option value="1">Quản Lý</option>
                             <option value="2">Nhân Viên</option>
                         </select>
@@ -304,7 +309,6 @@
                     <div class="col-md-12">
                         <label class="form-label">Education Degree</label>
                         <select name="educationDegreeEdit" id="educationDegreeEdit" class="form-select">
-                            <option>Please choose</option>
                             <option value="1">Trung Cấp</option>
                             <option value="2">Cao Đẳng</option>
                             <option value="3">Đại Học</option>
@@ -314,7 +318,6 @@
                     <div class="col-md-12">
                         <label class="form-label">Division</label>
                         <select name="divisionEdit" id="divisionEdit" class="form-select">
-                            <option>Please choose</option>
                             <option value="1">Sale-Marketing</option>
                             <option value="2">Hành Chính</option>
                             <option value="3">Phục vụ</option>

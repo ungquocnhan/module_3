@@ -39,12 +39,15 @@ public class EmployeeRepository implements IEmployeeRepository {
                 String phoneNumber = resultSet.getString("phone_number");
                 String email = resultSet.getString("email");
                 String address = resultSet.getString("address");
+                int positionId = resultSet.getInt("position_id");
+                int educationDegreeId = resultSet.getInt("education_degree_id");
+                int divisionId = resultSet.getInt("division_id");
                 String namePosition = resultSet.getString("name_position");
                 String nameEducationDegree = resultSet.getString("name_education_degree");
                 String nameDivision = resultSet.getString("name_division");
-                Position position = new Position(namePosition);
-                EducationDegree educationDegree = new EducationDegree(nameEducationDegree);
-                Division division = new Division(nameDivision);
+                Position position = new Position(positionId, namePosition);
+                EducationDegree educationDegree = new EducationDegree(educationDegreeId, nameEducationDegree);
+                Division division = new Division(divisionId, nameDivision);
                 employee = new Employee(id, name, birthday, idCard, salary, phoneNumber, email, address, position, educationDegree, division);
                 employeeList.add(employee);
             }

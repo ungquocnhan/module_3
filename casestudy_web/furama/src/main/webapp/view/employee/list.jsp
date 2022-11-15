@@ -296,9 +296,9 @@
                     <div class="col-md-12">
                         <label class="form-label">Position</label>
                         <select name="positionEdit" id="positionEdit" class="form-select">
-                            <option>Please choose</option>
-                            <option value="1" ${employee.getPosition().getId() == 1 ? "selected" : ""}>Quản Lý</option>
-                            <option value="2" ${employee.getPosition().getId() == 2 ? "selected" : ""}>Nhân Viên</option>
+<%--                            <option>Please choose</option>--%>
+                            <option value="1">Quản Lý</option>
+                            <option value="2">Nhân Viên</option>
                         </select>
                     </div>
                     <div class="col-md-12">

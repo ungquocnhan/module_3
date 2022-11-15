@@ -18,6 +18,7 @@ import java.util.List;
 @WebServlet(name = "EmployeeServlet", value = "/employee")
 public class EmployeeServlet extends HttpServlet {
     private IEmployeeService employeeService = new EmployeeService();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -44,7 +45,7 @@ public class EmployeeServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("deleteId"));
         boolean check = employeeService.isDeleteEmployee(id);
         String message = "Delete No Success";
-        if(check){
+        if (check) {
             message = "Delete Success";
         }
         request.setAttribute("message", message);
@@ -52,6 +53,27 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     private void editEmployee(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("idEdit"));
+        String name = request.getParameter("nameEdit");
+        String birthday = request.getParameter("birthdayEdit");
+        String idCard = request.getParameter("idCardEdit");
+        double salary = Double.parseDouble(request.getParameter("salaryEdit"));
+        String phoneNumber = request.getParameter("phoneNumberEdit");
+        String email = request.getParameter("emailEdit");
+        String address = request.getParameter("addressEdit");
+        int positionId = Integer.parseInt(request.getParameter("positionEdit"));
+        int educationDegreeId = Integer.parseInt(request.getParameter("educationDegreeEdit"));
+        int divisionId = Integer.parseInt(request.getParameter("divisionEdit"));
+        Position position = new Position(positionId);
+        EducationDegree educationDegree = new EducationDegree(educationDegreeId);
+        Division division = new Division(divisionId);
+        Employee employee = new Employee(id,name,birthday,idCard,salary,phoneNumber,email,address,position,educationDegree,division);
+        employeeService.isEditEmployee(employee);
+        try {
+            response.sendRedirect("/employee");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
